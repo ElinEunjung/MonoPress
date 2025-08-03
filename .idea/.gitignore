@@ -1,0 +1,35 @@
+# Default ignored files
+/shelf/
+/workspace.xml
+
+# Editor-based HTTP Client requests
+/httpRequests/
+
+# Datasource local storage ignored files
+/dataSources/
+/dataSources.local.xml
+
+# === IDEs ===
+# IntelliJ IDEA
+.idea/
+*.iml
+
+# === Node.js & Express ===
+node_modules/
+.env*
+
+# === Vite & React ===
+dist/
+build/
+
+# === Logs ===
+logs/
+*.log
+
+# === Heroku ===
+*.tar.gz
+*.orig
+
+# === MongoDB dump or local dev data ===
+dump/
+data/
