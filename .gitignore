@@ -14,9 +14,20 @@
 .idea/
 *.iml
 
-# === Node.js & Express ===
+# === Global Node.js ===
 node_modules/
+*.log
 .env*
+
+# === Client (Vite + React) ===
+client/node_modules/
+client/dist/
+client/.env*
+
+# === Server (Express + MongoDB) ===
+server/node_modules/
+server/.env*
+server/logs/
 
 # === Vite & React ===
 dist/
