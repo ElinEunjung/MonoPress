@@ -21,6 +21,11 @@ node_modules/
 # === Vite & React ===
 dist/
 build/
+*.local
+
+# === Testing ===
+coverage/
+jest.config.js
 
 # === Logs ===
 logs/
