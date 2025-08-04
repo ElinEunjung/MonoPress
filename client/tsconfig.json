@@ -7,8 +7,8 @@
 
     // Environment Settings
     // See also https://aka.ms/tsconfig/module
-    "module": "nodenext",
-    "target": "esnext",
+    "module": "ESNext", // Keeps modules in ES format (for Vite)
+    "target": "ESNext", // Modern JS features
     "types": [],
     // For nodejs:
     // "lib": ["esnext"],
@@ -33,12 +33,16 @@
     // "noPropertyAccessFromIndexSignature": true,
 
     // Recommended Options
-    "strict": true,
+    "strict": true, // Enables all strict type checks
     "jsx": "react-jsx",
     "verbatimModuleSyntax": true,
     "isolatedModules": true,
     "noUncheckedSideEffectImports": true,
-    "moduleDetection": "force",
-    "skipLibCheck": true,
-  }
+    "moduleDetection": "Node",
+    "skipLibCheck": true, // Speeds up builds by skipping library type ( .d.ts) checks
+    "esModuleInterop": true,	// Lets you write import x from "module" even if it's not ES module.
+    "forceConsistentCasingInFileNames": true, //Ensures you don’t get weird bugs from App.tsx vs app.tsx.
+  },
+
+  "include": ["src"] // Only compile files in your src/ folder
 }
