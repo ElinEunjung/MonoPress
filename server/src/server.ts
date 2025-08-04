@@ -7,6 +7,7 @@ dotenv.config();
 
 const app= express();
 const PORT = process.env.PORT || 3000;
+const uri = process.env.MONGO_URI || '';
 
 app.use(cors());
 app.use(express.json())
@@ -16,13 +17,13 @@ app.get('/', (_req, res) => {
 });
 
 // Connect to MongoDB and start server
-mongoose.connect(process.env.MONGO_URI || '', {})
+mongoose.connect(uri, {})
     .then(() => {
-        console.log('MongoDB connected');
+        console.log('MongoDB connected successfully');
         app.listen(PORT, () => {
             console.log(`Server running on http://localhost:${PORT}`);
         });
     })
     .catch(err => {
-        console.error(`MongoDB connection error:`, err);
+        console.error(`MongoDB connection failed:`, err);
     });
