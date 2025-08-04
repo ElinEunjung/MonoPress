@@ -40,8 +40,8 @@
     "noUncheckedSideEffectImports": true,
     "moduleDetection": "Node",
     "skipLibCheck": true, // Speeds up builds by skipping library type ( .d.ts) checks
-    "esModuleInterop": true,	// Lets you write import x from "module" even if it's not ES module.
-    "forceConsistentCasingInFileNames": true, //Ensures you don’t get weird bugs from App.tsx vs app.tsx.
+    "esModuleInterop": true, // Lets you write import x from "module" even if it's not ES module.
+    "forceConsistentCasingInFileNames": true //Ensures you don’t get weird bugs from App.tsx vs app.tsx.
   },
 
   "include": ["src"] // Only compile files in your src/ folder
