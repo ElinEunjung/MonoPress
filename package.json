@@ -1,0 +1,18 @@
+{
+  "devDependencies": {
+    "concurrently": "^9.2.0",
+    "husky": "^9.1.7",
+    "prettier": "^3.6.2"
+  },
+  "scripts": {
+    "dev": "concurrently npm:dev:client npm:dev:server",
+    "dev:client": "cd client && npm run dev",
+    "dev:server": "cd server && npm run dev",
+    "test": "npm run prettier:check && npm run test:client && npm run test:server",
+    "prettier:check": "prettier --check .",
+    "prettier:write": "prettier --write .",
+    "test:client": "cd client && npm test",
+    "test:server": "cd server && npm test",
+    "prepare": "husky"
+  }
+}

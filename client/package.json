@@ -15,6 +15,7 @@
     "react-router-dom": "^7.7.1"
   },
   "scripts": {
-    "dev": "vite"
+    "dev": "vite",
+    "test": "tsc --noEmit"
   }
 }
