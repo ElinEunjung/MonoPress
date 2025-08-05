@@ -20,7 +20,13 @@ app.get("/", (_req, res) => {
   res.send("API is running!");
 });
 
-// start server
+// Test API endpoint
+app.get('/api/hello', (_req, res) => {
+  res.json({ message: 'Hello from backend!' });
+});
+
+
+// Start server
 app.listen(PORT, () => {
   console.log(`🚀Server running on http://localhost:${PORT}`);
 });
