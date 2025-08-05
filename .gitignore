@@ -10,6 +10,9 @@
 /dataSources.local.xml
 
 # === IDEs ===
+# Visual Studio Code
+.vscode/*
+
 # IntelliJ IDEA
 .idea/
 *.iml
