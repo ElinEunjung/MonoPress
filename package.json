@@ -8,11 +8,18 @@
     "dev": "concurrently npm:dev:client npm:dev:server",
     "dev:client": "cd client && npm run dev",
     "dev:server": "cd server && npm run dev",
+    "prepare": "husky",
     "test": "npm run prettier:check && npm run prettier:write && npm run test:client && npm run test:server",
     "prettier:check": "prettier --check .",
     "prettier:write": "prettier --write .",
     "test:client": "cd client && npm test",
     "test:server": "cd server && npm test",
-    "prepare": "husky"
+    "postinstall": "npm run install:client && npm run install:server",
+    "install:client": "cd client && npm install --include=dev",
+    "install:server": "cd server && npm install",
+    "heroku:build:client": "cd client && npm run build",
+    "heroku:start:server": "cd server && npm run start",
+    "start": "npm run heroku:build:client && npm run heroku:start:server"
+
   }
 }
