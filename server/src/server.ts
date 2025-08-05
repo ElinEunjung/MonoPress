@@ -7,29 +7,37 @@ import path from "node:path";
 dotenv.config();
 
 const app = express();
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 5000;
 
 // Middleware
-app.use(cors());
+app.use(
+  cors({
+    origin: "http://localhost:5173",
+  })
+);
+
 app.use(express.json());
+
+app.listen(PORT, () => {
+  console.log(`🚀Server running on http://localhost:${PORT}`);
+});
+
+console.log(__dirname);
+// Serve static files from the Vite build directory
+app.use(express.static(path.join(__dirname, "../../client/dist")));
 
 // Connect to MongoDB
 // connectDB();
 
-// Serve static files from the Vite build directory
-app.use(express.static(path.join(__dirname, "../client/dist")));
-
 // Routes
-app.get("/", (_req, res) => {
-  res.send("API is running!");
-});
-
-// Test API endpoint
+// API endpoints should come before the catch-all route
 app.get("/api/hello", (_req, res) => {
   res.json({ message: "Hello from backend!" });
 });
 
-// Start server
-app.listen(PORT, () => {
-  console.log(`🚀Server running on http://localhost:${PORT}`);
+// Catch-all route to serve the frontend
+app.get("*", (_req, res) => {
+  res.sendFile(path.join(__dirname, "../../client/dist/index.html"));
 });
+
+// Start server
