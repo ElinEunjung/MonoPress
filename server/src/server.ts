@@ -14,10 +14,10 @@ app.use(cors());
 app.use(express.json());
 
 // Connect to MongoDB
-connectDB();
+// connectDB();
 
 // Serve static files from the Vite build directory
-app.use(express.static(path.join(__dirname, "../client/dist")));
+// app.use(express.static(path.join(__dirname, "../client/dist")));
 
 // Routes
 app.get("/", (_req, res) => {
@@ -25,13 +25,11 @@ app.get("/", (_req, res) => {
 });
 
 // Test API endpoint
-app.get('/api/hello', (_req, res) => {
-  res.json({ message: 'Hello from backend!' });
+app.get("/api/hello", (_req, res) => {
+  res.json({ message: "Hello from backend!" });
 });
-
 
 // Start server
 app.listen(PORT, () => {
   console.log(`🚀Server running on http://localhost:${PORT}`);
 });
-

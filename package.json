@@ -20,6 +20,5 @@
     "heroku:build:client": "cd client && npm run build",
     "heroku:start:server": "cd server && npm run start",
     "start": "npm run heroku:build:client && npm run heroku:start:server"
-
   }
 }
