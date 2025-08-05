@@ -7,12 +7,8 @@ import { api } from "./routes/api";
 dotenv.config();
 
 const app = express();
-// Middleware
-app.use(
-  cors({
-    origin: "http://localhost:5173",
-  })
-);
+
+app.use(cors());
 
 app.use(express.json());
 // Serve static files from the Vite build directory
