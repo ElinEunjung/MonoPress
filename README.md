@@ -1,7 +1,7 @@
-# VibePress
+# MonoPress
 
 [GitHub][(https://github.com/kristiania-pg6301-2024/pg6301-2025-konte-ElinEunjung)] <br>
-[Heroku][(add-link-here)] <br>
+[Heroku][(https://mono-press-5a039da642a5.herokuapp.com/)] <br>
 [Test Rapport][(add-link-here)] <br>
 
 ## Egenutfylling av funksjonelle krav
