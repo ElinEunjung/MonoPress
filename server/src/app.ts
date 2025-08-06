@@ -10,7 +10,10 @@ const app = express();
 
 app.use(
   cors({
-    origin: "http://localhost:5173",
+    origin: [
+      "http://localhost:5173",
+      "https://mono-press-5a039da642a5.herokuapp.com/",
+    ],
   })
 );
 

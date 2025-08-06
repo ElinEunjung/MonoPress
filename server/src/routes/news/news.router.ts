@@ -1,8 +1,8 @@
 import express from "express";
-import { getAllNews } from "./news.controller";
+import { httpAddNews } from "./news.controller";
 
 const newsRouter = express.Router();
 
-newsRouter.get("/api/hello", getAllNews);
+newsRouter.post("/api/news", httpAddNews);
 
 export { newsRouter };
