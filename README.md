@@ -1,8 +1,10 @@
 # MonoPress
 
-[GitHub][(https://github.com/kristiania-pg6301-2024/pg6301-2025-konte-ElinEunjung)] <br>
-[Heroku][(https://mono-press-5a039da642a5.herokuapp.com/)] <br>
-[Test Rapport][(add-link-here)] <br>
+Link til repo
+
+- [GitHub](https://github.com/kristiania-pg6301-2024/pg6301-2025-konte-ElinEunjung)
+- [Heroku](https://mono-press-5a039da642a5.herokuapp.com/) <br>
+- [Test Rapport][(add-link-here)] <br>
 
 ## Egenutfylling av funksjonelle krav
 
@@ -28,13 +30,13 @@
 
 - [x] Oppsett av package.json, vite, express, prettier
 
-- [] React Router
+- [x] React Router
 
-- [] Express app
+- [x] Express app
 
-- [] Kommunikasjon mellom frontend (React) og backend (Express)
+- [x] Kommunikasjon mellom frontend (React) og backend (Express)
 
-- [] Deployment til Heroku
+- [x] Deployment til Heroku
 
 - [x] Bruk av MongoDB
 
