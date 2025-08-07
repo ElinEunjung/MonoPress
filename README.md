@@ -1,5 +1,15 @@
 # MonoPress
 
+## Noe tanker på som kan være forbedring
+
+---
+
+### LocalStorage vs Cookies
+
+---
+
+Jeg har ikke funnet en mulighet at OAuth 2.0 fra Google sender meg tilbake en callback uri med cookies. Derfor har jeg laget en "naiv" løsning, som gj
+
 Link til repo
 
 - [GitHub](https://github.com/kristiania-pg6301-2024/pg6301-2025-konte-ElinEunjung)

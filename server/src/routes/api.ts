@@ -1,7 +1,8 @@
 import express from "express";
+
 import { newsRouter } from "./news/news.router";
 import { userRouter } from "./users/user.router";
-import { authenticationRouter } from "./authentication/authentication.router";
+import { authenticationRouter } from "./auth/auth.router";
 
 const api = express.Router();
 

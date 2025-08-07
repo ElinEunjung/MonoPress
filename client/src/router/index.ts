@@ -3,17 +3,12 @@ import Error from "../components/error.component";
 import SignUp from "../components/sign-up.component";
 import DashboardComponent from "../components/dashboard.component";
 import App from "../App";
+import { BASE_GLOBAL_URI } from "../constants/base-global-uri";
 
 export const router = createBrowserRouter([
   {
     path: "/",
     Component: App,
-    loader: async () => {
-      const urlParams = new URLSearchParams(window.location.search);
-      const code = urlParams.get("code");
-
-      console.log(code);
-    },
   },
   {
     path: "/sign-up",
@@ -27,21 +22,23 @@ export const router = createBrowserRouter([
     path: "/*",
     loader: async () => {
       const urlParams = new URLSearchParams(window.location.search);
-      const code = urlParams.get("code");
+      const queryCodeParam = urlParams.get("code");
 
-      if (code) {
+      console.log(queryCodeParam);
+      if (queryCodeParam) {
         await fetch(
-          `http://localhost:3000/api/login/google/callback?code=${code}`
+          `${BASE_GLOBAL_URI.BACKEND}/login/google/callback?code=${queryCodeParam}`
         ).then((response) => {
           if (response.ok) {
             response.json().then((data) => {
-              console.log(data);
-              if (!data.hasUserSignedBefore) {
-                window.location.href = "http://localhost:5173/sign-up";
+              localStorage.setItem("accessToken", data.accessToken);
+
+              if (!data.isUserRegistered) {
+                window.location.href = `${BASE_GLOBAL_URI.FRONTEND}/sign-up`;
               }
 
-              if (data.hasUserSignedBefore) {
-                window.location.href = "http://localhost:5173/dashboard";
+              if (data.isUserRegistered) {
+                window.location.href = `${BASE_GLOBAL_URI.FRONTEND}/dashboard`;
               }
             });
           }

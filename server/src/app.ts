@@ -15,6 +15,7 @@ app.use(
 );
 
 app.use(express.json());
+
 // Serve static files from the Vite build directory
 app.use(express.static(path.join(__dirname, "../../client/dist")));
 

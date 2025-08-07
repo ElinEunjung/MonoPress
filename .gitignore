@@ -20,7 +20,7 @@
 # === Global Node.js ===
 node_modules/
 *.log
-.env*
+.env
 
 # === Client (Vite + React) ===
 client/node_modules/
@@ -29,7 +29,7 @@ client/.env*
 
 # === Server (Express + MongoDB) ===
 server/node_modules/
-server/.env*
+server/.env
 server/logs/
 
 # === Vite & React ===

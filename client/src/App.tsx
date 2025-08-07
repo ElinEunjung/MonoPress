@@ -1,21 +1,11 @@
-import { useEffect } from "react";
+import { BASE_GLOBAL_URI } from "./constants/base-global-uri";
 
 export const App = () => {
-  useEffect(() => {
-    fetch("https://mono-press-5a039da642a5.herokuapp.com/api/hello")
-      .then((response) => response.json())
-      .then((data) => {
-        console.log(data);
-      });
-  }, []);
-
   return (
     <>
       <h1>Welcome to bvla blal bla </h1>
 
-      <a href="http://localhost:3000/api/login/google/start">
-        Login with Google
-      </a>
+      <a href={`${BASE_GLOBAL_URI.BACKEND}/auth/login`}>Login with Google</a>
     </>
   );
 };

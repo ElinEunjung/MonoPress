@@ -3,13 +3,15 @@ import express from "express";
 import {
   httpGetAuthGoogleLogin,
   httpGetGoogleLoginCallbackAsync,
-} from "./authentication.controller";
+  httpGetGoogleEndSession,
+} from "./auth.controller";
 
 dotenv.config();
 
 const authenticationRouter = express.Router();
 
-authenticationRouter.get("/login/google/start", httpGetAuthGoogleLogin);
+authenticationRouter.get("/auth/login", httpGetAuthGoogleLogin);
+authenticationRouter.post("/auth/logout", httpGetGoogleEndSession);
 
 authenticationRouter.get(
   "/login/google/callback",
