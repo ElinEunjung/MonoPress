@@ -10,10 +10,7 @@ const app = express();
 
 app.use(
   cors({
-    origin: [
-      "http://localhost:5173",
-      "https://mono-press-5a039da642a5.herokuapp.com/",
-    ],
+    origin: "http://localhost:5173",
   })
 );
 
@@ -21,7 +18,7 @@ app.use(express.json());
 // Serve static files from the Vite build directory
 app.use(express.static(path.join(__dirname, "../../client/dist")));
 
-app.use(api);
+app.use("/api", api);
 
 // Catch-all route to serve the frontend
 app.get("*", (_req, res) => {

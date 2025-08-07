@@ -5,7 +5,7 @@ import { mongoDBConnect } from "./services/mongo";
 const server = http.createServer(app);
 
 async function startServer() {
-  const PORT = process.env.PORT || 5000;
+  const PORT = process.env.PORT || 3000;
 
   await mongoDBConnect();
   server.listen(PORT, () => {

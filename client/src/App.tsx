@@ -8,9 +8,35 @@ export const App = () => {
         console.log(data);
       });
   }, []);
+
+  useEffect(() => {
+    // Extract code from URL if present
+    const urlParams = new URLSearchParams(window.location.search);
+    const code = urlParams.get("code");
+
+    if (code) {
+      fetch(
+        `http://localhost:3000/api/login/google/callback?code=${code}`
+      ).then((response) => {
+        if (response.ok) {
+          response.json().then((data) => {
+            // data = "http://localhost:3000/auth"
+            // sign-up
+            //location.href = //";
+          });
+          // location.href = "http://localhost:3000/";
+        }
+      });
+    }
+  }, []);
+
   return (
     <>
       <h1>Welcome to bvla blal bla </h1>
+
+      <a href="http://localhost:3000/api/login/google/start">
+        Login with Google
+      </a>
     </>
   );
 };

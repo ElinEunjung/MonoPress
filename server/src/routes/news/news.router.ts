@@ -3,6 +3,6 @@ import { httpAddNews } from "./news.controller";
 
 const newsRouter = express.Router();
 
-newsRouter.post("/api/news", httpAddNews);
+newsRouter.post("/news", httpAddNews);
 
 export { newsRouter };
