@@ -3,6 +3,7 @@ import { GLOBAL_SERVER_HOST_NAME } from "../../constants/global-server-host-name
 import { GOOGLE_DISCOVERY_ENDPOINT } from "./constants/endpoint.constant";
 import { GLOBAL_GOOGLE_CONFIG } from "../../constants/global-google-config";
 import { GoogleDiscoveryConfiguration } from "./types/google-discovery-configuration.type";
+import { userSchemaModel } from "../users/models/user-schema.mongo";
 
 export async function httpGetAuthGoogleLogin(
   _request: Request,
@@ -24,7 +25,7 @@ export async function httpGetAuthGoogleLogin(
   response.redirect(authorization_url);
 }
 
-export async function httpGetGoogleLoginCallbackasync(
+export async function httpGetGoogleLoginCallbackAsync(
   request: Request,
   response: Response
 ) {
@@ -67,7 +68,7 @@ export async function httpGetGoogleLoginCallbackasync(
 
     const tokenData = await tokenResult.json();
 
-    console.log(tokenData);
+    // console.log(tokenData);
 
     if (tokenResult.ok) {
       const { access_token } = tokenData;
@@ -84,13 +85,22 @@ export async function httpGetGoogleLoginCallbackasync(
 
       const userData = await userInfoResponse.json();
 
-      console.log(userData);
+      const { id: googleId, email, name, picture } = userData;
 
-      // if (hasUserSignedBefore) {
-      //   return response.send();
-      // } else {
-      //   return response.send("/sign-up");
-      // }
+      let user = await userSchemaModel.findOne({ googleId });
+      let hasUserSignedBefore = false;
+
+      if (user !== null) {
+        hasUserSignedBefore = true;
+
+        return response.json({
+          hasUserSignedBefore,
+        });
+      } else {
+        return response.json({
+          hasUserSignedBefore,
+        });
+      }
     } else {
       return response.json({
         status: "error",
