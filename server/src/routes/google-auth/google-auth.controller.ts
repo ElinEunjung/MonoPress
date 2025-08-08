@@ -5,7 +5,7 @@ import { GLOBAL_GOOGLE_CONFIG } from "../../constants/global-google-config";
 import { GoogleDiscoveryConfiguration } from "./types/google-discovery-configuration.type";
 import { userSchemaModel } from "../users/models/user-schema.mongo";
 
-export async function httpGetAuthGoogleLogin(
+export async function handleOAuthGoogleLogin(
   _request: Request,
   response: Response
 ) {
@@ -25,7 +25,55 @@ export async function httpGetAuthGoogleLogin(
   response.redirect(authorization_url);
 }
 
-export async function httpGetGoogleLoginCallbackAsync(
+export async function handleOAuthGoogleLogout(
+  request: Request,
+  response: Response
+) {
+  const { accessToken } = request.body;
+
+  if (!accessToken) {
+    return response.status(400).json({
+      status: "error",
+      error: "Missing access token",
+      error_description: "The access token is required to end the session.",
+    });
+  }
+
+  try {
+    // Make a request to Google's token revocation endpoint
+    const revokeResponse = await fetch(
+      `https://oauth2.googleapis.com/revoke?token=${accessToken}`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/x-www-form-urlencoded",
+        },
+      }
+    );
+
+    if (revokeResponse.ok) {
+      return response.json({
+        status: "success",
+        message: "Session ended successfully",
+      });
+    } else {
+      const error = await revokeResponse.json();
+      return response.status(400).json({
+        status: "error",
+        error: error.error,
+        error_description: error.error_description,
+      });
+    }
+  } catch (error) {
+    return response.status(500).json({
+      status: "error",
+      error: "Internal server error",
+      error_description: "Failed to end the session",
+    });
+  }
+}
+
+export async function handleGetGoogleLoginCallback(
   request: Request,
   response: Response
 ) {
@@ -99,8 +147,8 @@ export async function httpGetGoogleLoginCallbackAsync(
       isUserRegistered = true;
 
       return response.json({
-        isUserRegistered,
         accessToken: access_token,
+        isUserRegistered,
       });
     } else {
       return response.json({
@@ -112,54 +160,6 @@ export async function httpGetGoogleLoginCallbackAsync(
       status: "error",
       error: tokenData.error,
       error_description: tokenData.error_description,
-    });
-  }
-}
-
-export async function httpGetGoogleEndSession(
-  request: Request,
-  response: Response
-) {
-  const { accessToken } = request.body;
-
-  if (!accessToken) {
-    return response.status(400).json({
-      status: "error",
-      error: "Missing access token",
-      error_description: "The access token is required to end the session.",
-    });
-  }
-
-  try {
-    // Make a request to Google's token revocation endpoint
-    const revokeResponse = await fetch(
-      `https://oauth2.googleapis.com/revoke?token=${accessToken}`,
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/x-www-form-urlencoded",
-        },
-      }
-    );
-
-    if (revokeResponse.ok) {
-      return response.json({
-        status: "success",
-        message: "Session ended successfully",
-      });
-    } else {
-      const error = await revokeResponse.json();
-      return response.status(400).json({
-        status: "error",
-        error: error.error,
-        error_description: error.error_description,
-      });
-    }
-  } catch (error) {
-    return response.status(500).json({
-      status: "error",
-      error: "Internal server error",
-      error_description: "Failed to end the session",
     });
   }
 }

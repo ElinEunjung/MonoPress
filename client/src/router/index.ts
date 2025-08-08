@@ -24,7 +24,6 @@ export const router = createBrowserRouter([
       const urlParams = new URLSearchParams(window.location.search);
       const queryCodeParam = urlParams.get("code");
 
-      console.log(queryCodeParam);
       if (queryCodeParam) {
         await fetch(
           `${BASE_GLOBAL_URI.BACKEND}/login/google/callback?code=${queryCodeParam}`

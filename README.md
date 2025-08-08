@@ -8,7 +8,7 @@
 
 ---
 
-Jeg har ikke funnet en mulighet at OAuth 2.0 fra Google sender meg tilbake en callback uri med cookies. Derfor har jeg laget en "naiv" løsning, som gj
+Jeg har ikke funnet en mulighet at OAuth 2.0 fra Google sender meg tilbake en callback uri med cookies. Derfor har jeg laget en "naiv" løsning, som vi bruker local storage for å lagre access token
 
 Link til repo
 

@@ -1,11 +1,13 @@
 import type { Response, Request } from "express";
 import { addNews } from "./models/news.model";
 
-export function getAllNews(request: Request, response: Response) {
-  // addNews();
+export function handleGetAllNews(request: Request, response: Response) {
+  return response.json({
+    message: "I GOT NEWWWWS",
+  });
 }
 
-export async function httpAddNews(request: Request, response: Response) {
+export async function handleAddNews(request: Request, response: Response) {
   const payload = request.body;
   await addNews(payload);
 
