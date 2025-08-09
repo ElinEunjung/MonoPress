@@ -1,11 +1,13 @@
 import type { Request, Response } from "express";
-import { GLOBAL_SERVER_HOST_NAME } from "../../constants/global-server-host-name";
+import { GLOBAL_SERVER_HOST_NAME } from "../../../constants/global-server-host-name";
 import { GOOGLE_DISCOVERY_ENDPOINT } from "./constants/endpoint.constant";
-import { GLOBAL_GOOGLE_CONFIG } from "../../constants/global-google-config";
+import { GLOBAL_GOOGLE_CONFIG } from "../../../constants/global-google-config";
 import { GoogleDiscoveryConfiguration } from "./types/google-discovery-configuration.type";
 import { userGoogleSchemaModel } from "./models/user-google-schema.model";
 import { USER_ROLE } from "./constants/user-role.constant";
 import { USER_POLICY } from "./constants/user-policy.constant";
+import jwt from "jsonwebtoken";
+import { JWT_SECRET } from "../../../constants/global-jwt-token";
 
 export async function handleOAuthGoogleLogin(
   _request: Request,
@@ -31,8 +33,6 @@ export async function handleOAuthGoogleLogout(
   request: Request,
   response: Response
 ) {
-  // const { accessToken } = request.body;
-
   const authHeader = request.headers["authorization"] ?? "";
   const accessToken = authHeader.split(" ")[1];
 
@@ -151,6 +151,12 @@ export async function handleGetGoogleLoginCallback(
 
     let isUserRegistered = false;
 
+    // Create the JWT payload
+    const payload = { accessToken: access_token, name };
+
+    // Sign the token with the secret key and set an expiry time
+    const token = jwt.sign(payload, JWT_SECRET, { expiresIn: "1m" }); // 1 minute expiry
+
     if (user === null) {
       const createUserSchemaPayload = {
         googleId,
@@ -174,14 +180,25 @@ export async function handleGetGoogleLoginCallback(
       };
       await userGoogleSchemaModel.insertOne(createUserSchemaPayload);
 
-      return response.json({
+      response.cookie("access_token", token, {
+        httpOnly: true,
+        secure: false,
+        maxAge: 5000,
+      });
+
+      response.json({
         isUserRegistered,
       });
     } else {
       isUserRegistered = true;
 
-      return response.json({
-        accessToken: access_token,
+      response.cookie("access_token", token, {
+        httpOnly: true,
+        secure: false,
+        maxAge: 5000,
+      });
+
+      response.json({
         isUserRegistered,
       });
     }

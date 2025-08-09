@@ -1,33 +1,43 @@
 import { createBrowserRouter } from "react-router";
 import Error from "../components/error.component";
-import SignUp from "../components/sign-up.component";
 import DashboardComponent from "../components/dashboard.component";
-import RootLayout from "../layouts/public-layouts/public-layout.component";
+import PublicLayout from "../layouts/public-layouts/public-layout.component";
 import { BASE_GLOBAL_URI } from "../constants/base-global-uri";
 import Login from "../components/login.component";
 import ProtectedRoutes from "../components/protected-routes.component";
+import { api } from "@/api/api";
+
+import News from "@/pages/news/news.component";
+import Article from "@/pages/news/pages/Article.component";
 
 export const router = createBrowserRouter([
   {
     path: "/",
-    Component: RootLayout,
-  },
-  {
-    path: "/sign-up",
-    Component: SignUp,
-  },
-  {
-    path: "/login",
-    Component: Login,
-  },
-
-  {
-    path: "/dashboard",
-    Component: ProtectedRoutes,
+    Component: PublicLayout,
     children: [
       {
-        path: "edit",
-        Component: DashboardComponent,
+        path: "news",
+        Component: News,
+        children: [
+          {
+            path: ":id",
+            Component: Article,
+          },
+        ],
+      },
+      {
+        path: "login",
+        Component: Login,
+      },
+      {
+        path: "dashboard",
+        Component: ProtectedRoutes,
+        children: [
+          {
+            path: "edit",
+            Component: DashboardComponent,
+          },
+        ],
       },
     ],
   },
@@ -39,23 +49,21 @@ export const router = createBrowserRouter([
       const queryCodeParam = urlParams.get("code");
 
       if (queryCodeParam) {
-        await fetch(
-          `${BASE_GLOBAL_URI.BACKEND}/login/google/callback?code=${queryCodeParam}`
-        ).then((response) => {
-          if (response.ok) {
-            response.json().then((data) => {
-              localStorage.setItem("accessToken", data.accessToken);
+        try {
+          const response = await api.get(
+            `/login/google/callback?code=${queryCodeParam}`
+          );
 
-              if (!data.isUserRegistered) {
-                window.location.href = `${BASE_GLOBAL_URI.FRONTEND}/sign-up`;
-              }
-
-              if (data.isUserRegistered) {
-                window.location.href = `${BASE_GLOBAL_URI.FRONTEND}/dashboard/edit`;
-              }
-            });
+          if (!response.data.isUserRegistered) {
+            window.location.href = `${BASE_GLOBAL_URI.FRONTEND}/sign-up`;
           }
-        });
+
+          if (response.data.isUserRegistered) {
+            window.location.href = `${BASE_GLOBAL_URI.FRONTEND}/`;
+          }
+        } catch (error) {
+          console.error("🥲🥲🥲🥲", error);
+        }
       }
     },
     Component: Error,
