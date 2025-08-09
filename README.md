@@ -1,5 +1,9 @@
 # MonoPress
 
+## Inspirasjoner for prosjekt farge:
+
+- https://colorkit.co/palette/d1d1d3-e1dbd6-e2e2e4-f9f6f2-fefefe/
+
 ## Noe tanker på som kan være forbedring
 
 ---
@@ -10,18 +14,18 @@
 
 Jeg har ikke funnet en mulighet at OAuth 2.0 fra Google sender meg tilbake en callback uri med cookies. Derfor har jeg laget en "naiv" løsning, som vi bruker local storage for å lagre access token
 
-Link til repo
+## Link til repo
 
 - [GitHub](https://github.com/kristiania-pg6301-2024/pg6301-2025-konte-ElinEunjung)
-- [Heroku](https://mono-press-5a039da642a5.herokuapp.com/) <br>
-- [Test Rapport][(add-link-here)] <br>
+- [Heroku](https://mono-press-5a039da642a5.herokuapp.com/)
+- [Test Rapport][(add-link-here)]
 
 ## Egenutfylling av funksjonelle krav
 
-- [ ] Anonyme brukere skal se nyhetsaker nar de kommer til nettsiden (legg inn noen nyhetssaker for a demonstrere)
+- [ ] Anonyme brukere skal se nyhetsaker når de kommer til nettsiden (legg inn noen nyhetssaker for a demonstrere)
 - [ ] Brukere kan logge seg inn. Du kan velge brukere skal kunne registrere seg med brukernavn og passord (anbefales ikke) eller om brukere skal logge inn med Google eller Entra ID
 - [ ] En bruker som er logget inn kan se pa sin profilside
-- [ ] Brukere skal forbli logget inn når de refresher websiden
+- [x] Brukere skal forbli logget inn når de refresher websiden
 - [ ] En bruker som er logget inn kan klikke på et innlegg for hvem som har reagert på innlegget og kommentarer. Detaljene skal inkludere en overskrift, tekst, navn og bilde (om tilgjengelig) på den som publiserte den\*\*
 - [ ] Redaksjonelle brukere kan logge seg inn
 
@@ -50,7 +54,7 @@ Link til repo
 
 - [x] Bruk av MongoDB
 
-- [] OpenID Connect (Google)
+- [x] OpenID Connect (Google)
 
 - [] Tester med dokumentert testdekning
   _ (komment)_

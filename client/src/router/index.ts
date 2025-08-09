@@ -2,22 +2,36 @@ import { createBrowserRouter } from "react-router";
 import Error from "../components/error.component";
 import SignUp from "../components/sign-up.component";
 import DashboardComponent from "../components/dashboard.component";
-import App from "../App";
+import RootLayout from "../layouts/public-layouts/public-layout.component";
 import { BASE_GLOBAL_URI } from "../constants/base-global-uri";
+import Login from "../components/login.component";
+import ProtectedRoutes from "../components/protected-routes.component";
 
 export const router = createBrowserRouter([
   {
     path: "/",
-    Component: App,
+    Component: RootLayout,
   },
   {
     path: "/sign-up",
     Component: SignUp,
   },
   {
-    path: "/dashboard",
-    Component: DashboardComponent,
+    path: "/login",
+    Component: Login,
   },
+
+  {
+    path: "/dashboard",
+    Component: ProtectedRoutes,
+    children: [
+      {
+        path: "edit",
+        Component: DashboardComponent,
+      },
+    ],
+  },
+
   {
     path: "/*",
     loader: async () => {
@@ -37,7 +51,7 @@ export const router = createBrowserRouter([
               }
 
               if (data.isUserRegistered) {
-                window.location.href = `${BASE_GLOBAL_URI.FRONTEND}/dashboard`;
+                window.location.href = `${BASE_GLOBAL_URI.FRONTEND}/dashboard/edit`;
               }
             });
           }

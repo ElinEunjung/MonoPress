@@ -11,4 +11,4 @@ const FRONTEND =
 export const BASE_GLOBAL_URI = {
   BACKEND,
   FRONTEND,
-};
+} as const;

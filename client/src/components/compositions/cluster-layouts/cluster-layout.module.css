@@ -1,0 +1,20 @@
+.cluster {
+  --flow-gap: 1em;
+
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--flow-gap);
+  justify-content: var(--cluster-justify, flex-start);
+}
+
+.cluster-flow-exception {
+  flex-wrap: nowrap;
+}
+
+.cluster-justify {
+  --cluster-alignment: var(--cluster-alignment);
+}
+
+.cluster-align {
+  align-items: var(--cluster-alignment, flex-start);
+}

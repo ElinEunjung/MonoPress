@@ -1,0 +1,13 @@
+.wrapper {
+  --gutter: var(--space-s);
+  --max-width: 85em /* 1360px */;
+
+  position: relative;
+  margin-inline: auto;
+  max-width: var(--max-width);
+  padding-inline: var(--gutter, 1em);
+}
+
+.wrapper-flow-exception {
+  margin-inline: 0;
+}
