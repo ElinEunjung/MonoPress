@@ -27,7 +27,7 @@ async function addNews(newsPayload: NewsPayload) {
     },
     {
       upsert: true,
-    }
+    },
   );
 }
 

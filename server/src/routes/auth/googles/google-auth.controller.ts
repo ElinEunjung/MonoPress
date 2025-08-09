@@ -11,7 +11,7 @@ import { JWT_SECRET } from "../../../constants/global-jwt-token";
 
 export async function handleOAuthGoogleLogin(
   _request: Request,
-  response: Response
+  response: Response,
 ) {
   const googleDiscoveryConfiguration = await fetch(GOOGLE_DISCOVERY_ENDPOINT);
   const { authorization_endpoint } =
@@ -31,7 +31,7 @@ export async function handleOAuthGoogleLogin(
 
 export async function handleOAuthGoogleLogout(
   request: Request,
-  response: Response
+  response: Response,
 ) {
   const authHeader = request.headers["authorization"] ?? "";
   const accessToken = authHeader.split(" ")[1];
@@ -55,7 +55,7 @@ export async function handleOAuthGoogleLogout(
         headers: {
           "Content-Type": "application/x-www-form-urlencoded",
         },
-      }
+      },
     );
 
     if (revokeResponse.ok) {
@@ -82,7 +82,7 @@ export async function handleOAuthGoogleLogout(
 
 export async function handleGetGoogleLoginCallback(
   request: Request,
-  response: Response
+  response: Response,
 ) {
   const { error, error_description, code } = request.query as any;
 
@@ -140,7 +140,7 @@ export async function handleGetGoogleLoginCallback(
         headers: {
           Authorization: `Bearer ${access_token}`,
         },
-      }
+      },
     );
 
     const userData = await userInfoResponse.json();

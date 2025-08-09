@@ -40,7 +40,7 @@ const BoxLayout = (BoxLayoutProps: BoxLayoutProps) => {
   const inlineClassName = clsx(
     styles.box,
     optionalBoxClassName,
-    customClassName
+    customClassName,
   );
 
   const inlineStyle = {

@@ -35,7 +35,7 @@ const ClusterLayout = (clusterLayoutProps: ClusterLayoutProps) => {
   const inlineClassName = clsx(
     styles.cluster,
     optionalClusterClassName,
-    customClassName
+    customClassName,
   );
 
   const inlineStyle = {

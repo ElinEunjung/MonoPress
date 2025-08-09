@@ -51,7 +51,7 @@ export const router = createBrowserRouter([
       if (queryCodeParam) {
         try {
           const response = await api.get(
-            `/login/google/callback?code=${queryCodeParam}`
+            `/login/google/callback?code=${queryCodeParam}`,
           );
 
           if (!response.data.isUserRegistered) {

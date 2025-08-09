@@ -27,7 +27,7 @@ const WrapperLayout = (wrapperLayoutProps: WrapperLayoutProps) => {
   const inlineClassName = clsx(
     styles.wrapper,
     isNoWrapClassName,
-    customClassName
+    customClassName,
   );
 
   const inlineStyle = {

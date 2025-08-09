@@ -5,7 +5,7 @@ import { JWT_SECRET } from "../constants/global-jwt-token";
 export function validateCookieSession(
   req: Request,
   res: Response,
-  next: NextFunction
+  next: NextFunction,
 ) {
   const token = req.cookies.access_token;
 

@@ -3,7 +3,7 @@ import { GLOBAL_GOOGLE_CONFIG } from "../../constants/global-google-config";
 
 export async function handleGetUserByAccessToken(
   request: Request,
-  response: Response
+  response: Response,
 ) {
   const authHeader = request.headers["authorization"];
 

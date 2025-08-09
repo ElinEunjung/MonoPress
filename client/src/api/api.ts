@@ -20,7 +20,7 @@ api.interceptors.response.use(
       // You could dispatch a Redux action or update a global state here
     }
     return Promise.reject(error);
-  }
+  },
 );
 
 export { api };
