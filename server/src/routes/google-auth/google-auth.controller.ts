@@ -3,7 +3,9 @@ import { GLOBAL_SERVER_HOST_NAME } from "../../constants/global-server-host-name
 import { GOOGLE_DISCOVERY_ENDPOINT } from "./constants/endpoint.constant";
 import { GLOBAL_GOOGLE_CONFIG } from "../../constants/global-google-config";
 import { GoogleDiscoveryConfiguration } from "./types/google-discovery-configuration.type";
-import { userSchemaModel } from "../users/models/user-schema.mongo";
+import { userGoogleSchemaModel } from "./models/user-google-schema.model";
+import { USER_ROLE } from "./constants/user-role.constant";
+import { USER_POLICY } from "./constants/user-policy.constant";
 
 export async function handleOAuthGoogleLogin(
   _request: Request,
@@ -29,7 +31,12 @@ export async function handleOAuthGoogleLogout(
   request: Request,
   response: Response
 ) {
-  const { accessToken } = request.body;
+  // const { accessToken } = request.body;
+
+  const authHeader = request.headers["authorization"] ?? "";
+  const accessToken = authHeader.split(" ")[1];
+
+  console.log(accessToken);
 
   if (!accessToken) {
     return response.status(400).json({
@@ -140,18 +147,41 @@ export async function handleGetGoogleLoginCallback(
 
     const { id: googleId, email, name, picture } = userData;
 
-    let user = await userSchemaModel.findOne({ googleId });
+    let user = await userGoogleSchemaModel.findOne({ googleId });
+
     let isUserRegistered = false;
 
-    if (user !== null) {
+    if (user === null) {
+      const createUserSchemaPayload = {
+        googleId,
+        email,
+        name,
+        picture,
+        resources: {
+          role: USER_ROLE.NoneEditor,
+          policy: {
+            article: {
+              reaction: [USER_POLICY.READ, USER_POLICY.UPDATE],
+              comments: [
+                USER_POLICY.READ,
+                USER_POLICY.WRITE,
+                USER_POLICY.DELETE,
+                USER_POLICY.UPDATE,
+              ],
+            },
+          },
+        },
+      };
+      await userGoogleSchemaModel.insertOne(createUserSchemaPayload);
+
+      return response.json({
+        isUserRegistered,
+      });
+    } else {
       isUserRegistered = true;
 
       return response.json({
         accessToken: access_token,
-        isUserRegistered,
-      });
-    } else {
-      return response.json({
         isUserRegistered,
       });
     }

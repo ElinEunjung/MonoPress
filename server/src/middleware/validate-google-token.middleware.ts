@@ -1,12 +1,13 @@
 import type { Request, Response, NextFunction } from "express";
 import { GLOBAL_GOOGLE_CONFIG } from "../constants/global-google-config";
 
-export async function googleTokenValidator(
+export async function validateGoogleToken(
   request: Request,
   response: Response,
   next: NextFunction
 ) {
-  const { accessToken } = request.body;
+  const authHeader = request.headers["authorization"] ?? "";
+  const accessToken = authHeader.split(" ")[1];
 
   if (!accessToken) {
     return response.status(400).json({

@@ -1,4 +1,11 @@
 {
+  "scripts": {
+    "dev": "ts-node-dev src/server.ts",
+    "start": "ts-node src/server.ts",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest",
+    "test:ui": "vitest --ui"
+  },
   "dependencies": {
     "@types/cors": "^2.8.19",
     "@types/express": "^5.0.0",
@@ -10,14 +17,9 @@
     "ts-node": "^10.9.2"
   },
   "devDependencies": {
+    "@vitest/ui": "^3.2.4",
     "ts-node-dev": "^2.0.0",
     "typescript": "^5.9.2",
     "vitest": "^3.2.4"
-  },
-  "scripts": {
-    "dev": "ts-node-dev src/server.ts",
-    "start": "ts-node src/server.ts",
-    "test": "tsc --noEmit",
-    "test:ci": "vitest --watch=false"
   }
 }
