@@ -1,25 +1,17 @@
 import type { ButtonHTMLAttributes } from "react";
-import { BASE_GLOBAL_URI } from "../constants/base-global-uri";
+
+import { api } from "@/api/api";
 
 type LogoutProps = Omit<ButtonHTMLAttributes<HTMLButtonElement>, "onClick">;
 
 const Logout = ({ ...restButtonProps }: LogoutProps) => {
   async function handleLogout() {
-    const accessToken = localStorage.getItem("accessToken");
-
-    await fetch(`${BASE_GLOBAL_URI.BACKEND}/auth/logout`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${accessToken}`,
-      },
-      body: JSON.stringify({ accessToken }),
-    }).then((response) => {
-      if (response.ok) {
-        localStorage.removeItem("accessToken");
-        location.href = "/";
-      }
-    });
+    try {
+      await api.get("/auth/logout");
+      location.href = "/";
+    } catch (error) {
+      console.error(error as Error);
+    }
   }
 
   return (

@@ -6,12 +6,13 @@ import { GoogleDiscoveryConfiguration } from "./types/google-discovery-configura
 import { userGoogleSchemaModel } from "./models/user-google-schema.model";
 import { USER_ROLE } from "./constants/user-role.constant";
 import { USER_POLICY } from "./constants/user-policy.constant";
-import jwt from "jsonwebtoken";
+import jwt, { JwtPayload } from "jsonwebtoken";
 import { JWT_SECRET } from "../../../constants/global-jwt-token";
+import { UserModel } from "../models/types/user-model.type";
 
 export async function handleOAuthGoogleLogin(
   _request: Request,
-  response: Response,
+  response: Response
 ) {
   const googleDiscoveryConfiguration = await fetch(GOOGLE_DISCOVERY_ENDPOINT);
   const { authorization_endpoint } =
@@ -31,22 +32,24 @@ export async function handleOAuthGoogleLogin(
 
 export async function handleOAuthGoogleLogout(
   request: Request,
-  response: Response,
+  response: Response
 ) {
-  const authHeader = request.headers["authorization"] ?? "";
-  const accessToken = authHeader.split(" ")[1];
+  const token = request.cookies.access_token;
 
-  console.log(accessToken);
-
-  if (!accessToken) {
-    return response.status(400).json({
-      status: "error",
-      error: "Missing access token",
-      error_description: "The access token is required to end the session.",
-    });
+  if (!token) {
+    return response
+      .status(401)
+      .json({ message: "Session outdated. Please log in again." });
   }
 
   try {
+    const decodedToken = jwt.verify(token, JWT_SECRET);
+
+    type DecodedUserModelToken = UserModel & Pick<JwtPayload, "iat" | "exp">;
+
+    const { accessToken } = decodedToken as DecodedUserModelToken;
+
+    console.log(accessToken);
     // Make a request to Google's token revocation endpoint
     const revokeResponse = await fetch(
       `https://oauth2.googleapis.com/revoke?token=${accessToken}`,
@@ -55,14 +58,12 @@ export async function handleOAuthGoogleLogout(
         headers: {
           "Content-Type": "application/x-www-form-urlencoded",
         },
-      },
+      }
     );
 
     if (revokeResponse.ok) {
-      return response.json({
-        status: "success",
-        message: "Session ended successfully",
-      });
+      response.clearCookie("access_token");
+      response.status(204).end();
     } else {
       const error = await revokeResponse.json();
       return response.status(400).json({
@@ -72,17 +73,18 @@ export async function handleOAuthGoogleLogout(
       });
     }
   } catch (error) {
-    return response.status(500).json({
-      status: "error",
-      error: "Internal server error",
-      error_description: "Failed to end the session",
-    });
+    console.log("JWT verification failed:", (error as Error).message);
+    response.clearCookie("access_token");
+
+    return response
+      .status(401)
+      .json({ message: "Session outdated. Please log in again." });
   }
 }
 
 export async function handleGetGoogleLoginCallback(
   request: Request,
-  response: Response,
+  response: Response
 ) {
   const { error, error_description, code } = request.query as any;
 
@@ -140,7 +142,7 @@ export async function handleGetGoogleLoginCallback(
         headers: {
           Authorization: `Bearer ${access_token}`,
         },
-      },
+      }
     );
 
     const userData = await userInfoResponse.json();
@@ -152,7 +154,12 @@ export async function handleGetGoogleLoginCallback(
     let isUserRegistered = false;
 
     // Create the JWT payload
-    const payload = { accessToken: access_token, name };
+    const payload = {
+      accessToken: access_token,
+      name,
+      email,
+      picture,
+    };
 
     // Sign the token with the secret key and set an expiry time
     const token = jwt.sign(payload, JWT_SECRET, { expiresIn: "1m" }); // 1 minute expiry
