@@ -4,6 +4,7 @@ import { USER_ROLE } from "../constants/user-role.constant";
 import { userPolicy } from "./helpers/user-policies.helper";
 
 const USER_GOOGLE_SCHEMA = new mongoose.Schema({
+  accessToken: { type: String, required: true },
   googleId: { type: String, required: true },
   email: { type: String, required: true },
   name: { type: String, required: true },

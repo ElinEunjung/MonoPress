@@ -1,14 +1,16 @@
 import { createBrowserRouter } from "react-router";
-import Error from "../components/error.component";
-import DashboardComponent from "../components/dashboard.component";
-import PublicLayout from "../layouts/public-layouts/public-layout.component";
-import { BASE_GLOBAL_URI } from "../constants/base-global-uri";
-import Login from "../components/login.component";
-import ProtectedRoutes from "../components/protected-routes.component";
 import { api } from "@/api/api";
+import { GLOBAL_BASE_URI } from "../constants/global-base-uri";
 
-import News from "@/pages/news/news.component";
-import Article from "@/pages/news/pages/Article.component";
+import PublicLayout from "../layouts/public-layouts/public-layout.component";
+import Error from "../components/error.component";
+import ProtectedRoutes from "../pages/dashboards/components/protected-routes/protected-routes.component";
+
+import LoginPage from "../pages/logins/login-page.component";
+import NewsPage from "@/pages/news/news-page.component";
+import ArticlePage from "@/pages/news/pages/Article.component";
+import CreateArticle from "@/pages/dashboards/components/layouts/components/create-article.component";
+import ProfilePage from "@/pages/profiles/profile-page.component";
 
 export const router = createBrowserRouter([
   {
@@ -17,31 +19,35 @@ export const router = createBrowserRouter([
     children: [
       {
         path: "news",
-        Component: News,
+        Component: NewsPage,
         children: [
           {
             path: ":id",
-            Component: Article,
+            Component: ArticlePage,
           },
         ],
       },
+
       {
-        path: "login",
-        Component: Login,
-      },
-      {
-        path: "dashboard",
-        Component: ProtectedRoutes,
-        children: [
-          {
-            path: "edit",
-            Component: DashboardComponent,
-          },
-        ],
+        path: "profile",
+        Component: ProfilePage,
       },
     ],
   },
-
+  {
+    path: "/login",
+    Component: LoginPage,
+  },
+  {
+    path: "dashboard",
+    Component: ProtectedRoutes,
+    children: [
+      {
+        path: "create",
+        Component: CreateArticle,
+      },
+    ],
+  },
   {
     path: "/*",
     loader: async () => {
@@ -55,11 +61,11 @@ export const router = createBrowserRouter([
           );
 
           if (!response.data.isUserRegistered) {
-            window.location.href = `${BASE_GLOBAL_URI.FRONTEND}/sign-up`;
+            window.location.href = `${GLOBAL_BASE_URI.FRONTEND}/dashboard`;
           }
 
           if (response.data.isUserRegistered) {
-            window.location.href = `${BASE_GLOBAL_URI.FRONTEND}/`;
+            window.location.href = `${GLOBAL_BASE_URI.FRONTEND}/`;
           }
         } catch (error) {
           console.error("🥲🥲🥲🥲", error);

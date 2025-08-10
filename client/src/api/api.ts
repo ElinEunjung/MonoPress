@@ -1,15 +1,14 @@
 import axios from "axios";
-import { BASE_GLOBAL_URI } from "../constants/base-global-uri";
+import { GLOBAL_BASE_URI } from "../constants/global-base-uri";
 
 const api = axios.create({
-  baseURL: BASE_GLOBAL_URI.BACKEND,
+  baseURL: GLOBAL_BASE_URI.BACKEND,
   withCredentials: true,
 });
 
 // Add a response interceptor
 api.interceptors.response.use(
   (response) => {
-    console.log(response);
     // If the response is successful, just return it
     return response;
   },

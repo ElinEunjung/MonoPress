@@ -1,8 +1,7 @@
 import type { Request, Response } from "express";
-import jwt from "jsonwebtoken";
 import type { JwtPayload } from "jsonwebtoken";
 
-import { JWT_SECRET } from "../../../constants/global-jwt-token";
+import { JwtToken } from "../googles/helpers/jwt-token.helper";
 import type { UserModel } from "../models/types/user-model.type";
 
 export async function handleJwtCookieSession(req: Request, res: Response) {
@@ -15,22 +14,22 @@ export async function handleJwtCookieSession(req: Request, res: Response) {
   }
 
   try {
-    const decodedToken = jwt.verify(token, JWT_SECRET);
+    const decodedToken = JwtToken.verifyAndDecrypt(token);
 
     type DecodedUserModelToken = UserModel & Pick<JwtPayload, "iat" | "exp">;
 
-    const { email, name, picture, accessToken } =
+    const { email, name, picture, resources, accessToken } =
       decodedToken as DecodedUserModelToken;
 
     return res.status(200).json({
+      accessToken,
       name,
       email,
       picture,
+      resources,
     });
   } catch (error) {
-    // The token is invalid (e.g., expired or tampered with)
     console.log("JWT verification failed:", (error as Error).message);
-    // Clear the cookie in the browser
     res.clearCookie("access_token");
 
     return res

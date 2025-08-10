@@ -1,5 +1,5 @@
-const Article = () => {
-  return <div>Article</div>;
+const ArticlePage = () => {
+  return <div>ArticlePage</div>;
 };
 
-export default Article;
+export default ArticlePage;

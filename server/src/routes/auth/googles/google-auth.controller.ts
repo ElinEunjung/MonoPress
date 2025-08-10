@@ -1,18 +1,21 @@
 import type { Request, Response } from "express";
-import { GLOBAL_SERVER_HOST_NAME } from "../../../constants/global-server-host-name";
+import { GLOBAL_SERVER_HOST_NAME } from "../../../configs/googles/global-server-host-name";
 import { GOOGLE_DISCOVERY_ENDPOINT } from "./constants/endpoint.constant";
-import { GLOBAL_GOOGLE_CONFIG } from "../../../constants/global-google-config";
+import { GLOBAL_GOOGLE_CONFIG } from "../../../configs/googles/global-google-config";
 import { GoogleDiscoveryConfiguration } from "./types/google-discovery-configuration.type";
 import { userGoogleSchemaModel } from "./models/user-google-schema.model";
 import { USER_ROLE } from "./constants/user-role.constant";
 import { USER_POLICY } from "./constants/user-policy.constant";
 import jwt, { JwtPayload } from "jsonwebtoken";
-import { JWT_SECRET } from "../../../constants/global-jwt-token";
+import { JWT_SECRET } from "../../../constants/auth/global-jwt-token";
 import { UserModel } from "../models/types/user-model.type";
+import { COOKIE_MAX_AGE } from "./constants/cookie-max-age";
+import { IS_PRODUCTION_ENVIRONMENT } from "../../../configs/is-production-environment";
+import { JwtToken } from "./helpers/jwt-token.helper";
 
 export async function handleOAuthGoogleLogin(
   _request: Request,
-  response: Response
+  response: Response,
 ) {
   const googleDiscoveryConfiguration = await fetch(GOOGLE_DISCOVERY_ENDPOINT);
   const { authorization_endpoint } =
@@ -32,7 +35,7 @@ export async function handleOAuthGoogleLogin(
 
 export async function handleOAuthGoogleLogout(
   request: Request,
-  response: Response
+  response: Response,
 ) {
   const token = request.cookies.access_token;
 
@@ -48,8 +51,6 @@ export async function handleOAuthGoogleLogout(
     type DecodedUserModelToken = UserModel & Pick<JwtPayload, "iat" | "exp">;
 
     const { accessToken } = decodedToken as DecodedUserModelToken;
-
-    console.log(accessToken);
     // Make a request to Google's token revocation endpoint
     const revokeResponse = await fetch(
       `https://oauth2.googleapis.com/revoke?token=${accessToken}`,
@@ -58,7 +59,7 @@ export async function handleOAuthGoogleLogout(
         headers: {
           "Content-Type": "application/x-www-form-urlencoded",
         },
-      }
+      },
     );
 
     if (revokeResponse.ok) {
@@ -84,7 +85,7 @@ export async function handleOAuthGoogleLogout(
 
 export async function handleGetGoogleLoginCallback(
   request: Request,
-  response: Response
+  response: Response,
 ) {
   const { error, error_description, code } = request.query as any;
 
@@ -142,55 +143,59 @@ export async function handleGetGoogleLoginCallback(
         headers: {
           Authorization: `Bearer ${access_token}`,
         },
-      }
+      },
     );
 
     const userData = await userInfoResponse.json();
 
     const { id: googleId, email, name, picture } = userData;
 
-    let user = await userGoogleSchemaModel.findOne({ googleId });
+    const user = await userGoogleSchemaModel.findOne({ googleId });
+
+    if (user) {
+      await userGoogleSchemaModel.updateOne(
+        { googleId }, // Filter criteria
+        {
+          $set: {
+            accessToken: access_token,
+          },
+        },
+      );
+    }
 
     let isUserRegistered = false;
 
     // Create the JWT payload
-    const payload = {
+    const jwtPayload = {
       accessToken: access_token,
       name,
       email,
       picture,
-    };
-
-    // Sign the token with the secret key and set an expiry time
-    const token = jwt.sign(payload, JWT_SECRET, { expiresIn: "1m" }); // 1 minute expiry
-
-    if (user === null) {
-      const createUserSchemaPayload = {
-        googleId,
-        email,
-        name,
-        picture,
-        resources: {
-          role: USER_ROLE.NoneEditor,
-          policy: {
-            article: {
-              reaction: [USER_POLICY.READ, USER_POLICY.UPDATE],
-              comments: [
-                USER_POLICY.READ,
-                USER_POLICY.WRITE,
-                USER_POLICY.DELETE,
-                USER_POLICY.UPDATE,
-              ],
-            },
+      googleId,
+      resources: {
+        role: user?.resources?.role || USER_ROLE.NoneEditor,
+        policy: {
+          article: {
+            reaction: [USER_POLICY.READ, USER_POLICY.UPDATE],
+            comments: [
+              USER_POLICY.READ,
+              USER_POLICY.WRITE,
+              USER_POLICY.DELETE,
+              USER_POLICY.UPDATE,
+            ],
           },
         },
-      };
-      await userGoogleSchemaModel.insertOne(createUserSchemaPayload);
+      },
+    };
+    const token = JwtToken.create(jwtPayload);
+
+    if (user === null) {
+      await userGoogleSchemaModel.insertOne(jwtPayload);
 
       response.cookie("access_token", token, {
         httpOnly: true,
-        secure: false,
-        maxAge: 5000,
+        secure: IS_PRODUCTION_ENVIRONMENT,
+        maxAge: COOKIE_MAX_AGE.THREE_HOURS,
       });
 
       response.json({
@@ -201,8 +206,8 @@ export async function handleGetGoogleLoginCallback(
 
       response.cookie("access_token", token, {
         httpOnly: true,
-        secure: false,
-        maxAge: 5000,
+        secure: IS_PRODUCTION_ENVIRONMENT,
+        maxAge: COOKIE_MAX_AGE.THREE_HOURS,
       });
 
       response.json({

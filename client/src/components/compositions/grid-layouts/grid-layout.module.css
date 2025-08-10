@@ -1,0 +1,10 @@
+.grid-layout {
+  --repeat: auto-fit;
+  --gap: 1em;
+  --min: 25em;
+  --max: 1fr;
+
+  display: grid;
+  grid-gap: var(--gap);
+  grid-template-columns: repeat(var(--repeat), minmax(var(--min), var(--max)));
+}

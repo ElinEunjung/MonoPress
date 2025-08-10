@@ -1,4 +1,4 @@
-interface UserPolicy {
+export interface UserPolicy {
   READ: "read";
   WRITE: "write";
   DELETE: "delete";

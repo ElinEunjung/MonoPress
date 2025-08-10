@@ -1,6 +1,12 @@
 import mongoose from "mongoose";
 
 const ADD_NEWS_SCHEMA = new mongoose.Schema({
+  user: {
+    googleId: {
+      type: String,
+      required: true,
+    },
+  },
   title: {
     type: String,
     required: true,
@@ -11,9 +17,10 @@ const ADD_NEWS_SCHEMA = new mongoose.Schema({
   },
   updatedAt: {
     type: Date,
-    default: Date.now,
+    default: null,
+    required: false,
   },
-  excerption: {
+  category: {
     type: String,
     required: true,
   },

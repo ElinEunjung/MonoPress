@@ -1,34 +1,34 @@
 import { newsSchemaModel } from "./news-schema.mongo";
 
 interface NewsPayload {
+  user: {
+    googleId: string;
+  };
   title: string;
-  createdAt: NativeDate;
-  updatedAt: NativeDate;
-  excerption: string;
+  category: string;
   content: string;
 }
 
 async function addNews(newsPayload: NewsPayload) {
-  // await newsSchemaModel.updateOne(newsPayload);
+  const { title, category, content, user } = newsPayload;
 
-  const { title, excerption, content } = newsPayload;
-
-  await newsSchemaModel.updateOne(
-    {
+  try {
+    const newNews = await newsSchemaModel.create({
       title,
-    },
-    {
-      $set: {
-        createdAt: new Date(),
-        updatedAt: new Date(),
-        excerption,
-        content,
+      category,
+      content,
+      user: {
+        googleId: user.googleId,
       },
-    },
-    {
-      upsert: true,
-    },
-  );
+      createdAt: new Date(),
+      updatedAt: null,
+    });
+
+    return newNews;
+  } catch (error) {
+    console.error("Error adding news:", error);
+    throw error;
+  }
 }
 
 export { addNews };

@@ -1,5 +1,5 @@
 import Logout from "@/components/logout.component";
-import { BASE_GLOBAL_URI } from "@/constants/base-global-uri";
+import { Link } from "react-router";
 
 interface AuthButtonProps {
   isValidSession: boolean;
@@ -11,9 +11,9 @@ const AuthButton = ({ isValidSession }: AuthButtonProps) => {
       {isValidSession ? (
         <Logout />
       ) : (
-        <a href={`${BASE_GLOBAL_URI.BACKEND}/auth/login`} className="ml-auto">
-          Login with Google
-        </a>
+        <Link to="/login" title="login" className="ml-auto">
+          Login
+        </Link>
       )}
     </>
   );

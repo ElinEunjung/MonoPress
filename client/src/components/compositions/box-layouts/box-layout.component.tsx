@@ -14,6 +14,7 @@ interface BoxLayoutProps {
   borderWidth?: CSSProperties["borderWidth"];
   className?: string;
   children: ReactNode;
+  style?: CSSProperties;
   is?: HTMLTags;
 }
 
@@ -27,6 +28,7 @@ const BoxLayout = (BoxLayoutProps: BoxLayoutProps) => {
     paddingInlineEnd,
     paddingInlineStart,
     borderWidth,
+    style,
     children,
   } = BoxLayoutProps;
 
@@ -50,6 +52,7 @@ const BoxLayout = (BoxLayoutProps: BoxLayoutProps) => {
     "--spacing-padding-start": paddingInlineStart,
     "--spacing-padding-ending": paddingInlineEnd,
     "--border-width": borderWidth,
+    ...style,
   } as CSSProperties;
 
   return (

@@ -1,4 +1,5 @@
 import { useContext } from "react";
+import { Link } from "react-router";
 import { userInfoContext } from "@/contexts/user-info-providers/user-info-context";
 import styles from "./user-info.module.css";
 
@@ -9,13 +10,17 @@ const UserInfo = () => {
     <>
       {userInfoCtx.userInfo.name && (
         <>
-          <p className="ml-auto">{userInfoCtx.userInfo.name}</p>
-
-          <img
-            src={userInfoCtx.userInfo.picture}
-            alt={`Image of user profile from ${userInfoCtx.userInfo.name}`}
-            className={styles["user-profile"]}
-          />
+          <Link
+            to="/profile"
+            title={`${userInfoCtx.userInfo.name} profile page`}
+            className="ml-auto"
+          >
+            <img
+              src={userInfoCtx.userInfo.picture}
+              alt={`Image of user profile from ${userInfoCtx.userInfo.name}`}
+              className={styles["user-profile"]}
+            />
+          </Link>
         </>
       )}
     </>

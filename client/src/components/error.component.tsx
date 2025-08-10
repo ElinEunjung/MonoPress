@@ -1,12 +1,19 @@
+import CenterLayout from "./compositions/center-layouts/center-layout.component";
+import LoadingSpinner from "./loading-spinner.component";
+
 const Error = () => {
   const urlParams = new URLSearchParams(window.location.search);
   const code = urlParams.get("code");
 
   if (code) {
-    return <p>Loading...</p>;
+    return (
+      <CenterLayout intrinsic>
+        <LoadingSpinner />
+      </CenterLayout>
+    );
   }
 
-  return <div>error.component</div>;
+  return <div>404!!!!</div>;
 };
 
 export default Error;

@@ -8,7 +8,7 @@ const FRONTEND =
     ? "https://mono-press-5a039da642a5.herokuapp.com"
     : "http://localhost:5173";
 
-export const BASE_GLOBAL_URI = {
+export const GLOBAL_BASE_URI = {
   BACKEND,
   FRONTEND,
 } as const;

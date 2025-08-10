@@ -2,7 +2,7 @@ import { Outlet } from "react-router";
 import PublicLayoutHeader from "./components/public-layout-header";
 import AuthButton from "./components/auth-button.component";
 import WrapperLayout from "@/components/compositions/wrapper-layouts/wrapper-layout.component";
-import AuthSession from "@/components/auths/auth-verify-session.component";
+import AuthVerifySession from "@/components/auths/auth-verify-session.component";
 import UserInfo from "@/components/user-infos/user-info.component";
 
 import BoxLayout from "@/components/compositions/box-layouts/box-layout.component";
@@ -14,7 +14,7 @@ const MainLayout = () => {
   return (
     <WrapperLayout is="main">
       <UserInfoProvider>
-        <AuthSession>
+        <AuthVerifySession>
           {({ isValidSession }) => (
             <>
               <BoxLayout paddingBlock="0.5em">
@@ -28,7 +28,7 @@ const MainLayout = () => {
               <Outlet />
             </>
           )}
-        </AuthSession>
+        </AuthVerifySession>
       </UserInfoProvider>
     </WrapperLayout>
   );

@@ -1,0 +1,24 @@
+.center-layout {
+  --max-inline-size: 0;
+
+  box-sizing: content-box;
+  margin-inline: auto;
+  max-inline-size: var(--max-inline-size);
+}
+
+.gutters {
+  --gutter: 0;
+  padding-inline: var(--gutter);
+}
+
+.text-center {
+  text-align: center;
+}
+
+.intrinsic {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  min-height: 100dvh;
+}

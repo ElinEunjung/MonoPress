@@ -1,0 +1,18 @@
+.google-btn {
+  background: hsl(218, 90%, 61%);
+  color: #fff;
+  text-decoration: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition-duration: 0.4s;
+  width: fit-content;
+
+  & .google-btn__logo {
+    width: 0.75rem;
+    height: 0.75rem;
+  }
+
+  &:hover {
+    background: hsl(218, 90%, 55%);
+  }
+}

@@ -1,0 +1,7 @@
+.columnist {
+  --flow-gap: var(--flow-space);
+  --column-order: 3;
+
+  columns: var(--column-width, 10em) var(--column-order, 3);
+  gap: var(--flow-gap, 3em);
+}

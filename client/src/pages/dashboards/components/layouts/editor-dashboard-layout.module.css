@@ -1,0 +1,20 @@
+.dashboard-layout {
+  display: grid;
+  grid-template-areas:
+    "aside content content"
+    "aside content content"
+    "aside content content";
+  grid-template-columns: 15em 1fr 1fr;
+  grid-template-rows: 1fr 1fr 1fr;
+  min-height: 100dvh;
+}
+
+.dashboard-layout__aside {
+  grid-area: aside;
+  background-color: #d1d1d3;
+}
+
+.dashboard-layout__content {
+  grid-area: content;
+  background-color: #f9f6f2;
+}

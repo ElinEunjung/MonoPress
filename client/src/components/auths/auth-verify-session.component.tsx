@@ -1,37 +1,46 @@
-import type { ReactNode } from "react";
-import { useEffect, useState, useContext } from "react";
-import { useLocation } from "react-router";
-import { api } from "@/api/api";
 import { userInfoContext } from "@/contexts/user-info-providers/user-info-context";
 import type { UserInfo } from "@/contexts/user-info-providers/user-info.type";
-import { INITIAL_USER_INFO_MODEL } from "@/contexts/user-info-providers/models/constants/initial-user-info-model.constant";
+import { useApi } from "@/hooks/use-api";
+import type { ReactNode } from "react";
+import { useContext, useEffect, useState } from "react";
+import { useLocation, useNavigate } from "react-router";
 interface AuthVerifySessionProps {
-  children: (props: { isValidSession: boolean }) => ReactNode;
+  children: (props: {
+    isValidSession: boolean;
+    isLoading: boolean;
+    user: UserInfo | null;
+  }) => ReactNode;
 }
 
 const AuthVerifySession = ({ children }: AuthVerifySessionProps) => {
   const [isValidSession, setIsValidSession] = useState(false);
   const location = useLocation();
 
+  const navigate = useNavigate();
   const userInfoCtx = useContext(userInfoContext);
 
+  const isLoginPage = location.pathname === "/login";
+
+  if (isLoginPage && isValidSession) {
+    navigate("/");
+  }
+
+  const { data: userInfoData, isLoading } = useApi<UserInfo>(
+    "/auth/validate-session",
+  );
+
   useEffect(() => {
-    async function getRequestValidateJwtTokenSession() {
-      try {
-        const rawUserInfo = await api.get<UserInfo>("/auth/validate-session");
-        userInfoCtx.setUserInfo(rawUserInfo.data);
-
-        setIsValidSession(true);
-      } catch (_error) {
-        setIsValidSession(false);
-        userInfoCtx.setUserInfo(INITIAL_USER_INFO_MODEL);
-      }
+    if (userInfoData) {
+      userInfoCtx.setUserInfo(userInfoData);
+      setIsValidSession(true);
     }
+  }, [userInfoData, location.pathname, userInfoCtx]);
 
-    getRequestValidateJwtTokenSession();
-  }, [location.pathname]);
-
-  return children({ isValidSession });
+  return children({
+    isValidSession,
+    isLoading,
+    user: userInfoData,
+  });
 };
 
 export default AuthVerifySession;

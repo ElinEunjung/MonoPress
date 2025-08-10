@@ -3,7 +3,7 @@ import type { NextFunction, Request, Response } from "express";
 export function validateCookieSession(
   req: Request,
   res: Response,
-  next: NextFunction
+  next: NextFunction,
 ) {
   const token = req.cookies.access_token;
 

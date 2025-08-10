@@ -1,4 +1,4 @@
-interface UserRole {
+export interface UserRole {
   Editor: "editor";
   NoneEditor: "none-editor";
 }

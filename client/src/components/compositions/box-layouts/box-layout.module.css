@@ -10,6 +10,7 @@
 }
 
 .box * {
+  background: inherit;
   color: inherit;
 }
 

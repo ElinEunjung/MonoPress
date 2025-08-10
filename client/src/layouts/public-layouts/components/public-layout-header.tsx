@@ -1,9 +1,25 @@
+import { useContext } from "react";
+import { userInfoContext } from "@/contexts/user-info-providers/user-info-context";
 import { Link } from "react-router";
 import { baseNavLinks } from "../constants/base-nav-links.constant";
 import ClusterLayout from "@/components/compositions/cluster-layouts/cluster-layout.component";
 import BoxLayout from "@/components/compositions/box-layouts/box-layout.component";
 
 const PublicLayoutHeader = () => {
+  const userInfoCtx = useContext(userInfoContext);
+
+  let navLinks = baseNavLinks;
+
+  if (userInfoCtx.userInfo.name) {
+    navLinks = navLinks.concat([
+      {
+        id: 3,
+        to: "/profile",
+        title: "profile",
+        textContent: "Profile",
+      },
+    ]);
+  }
   return (
     <header>
       <BoxLayout
@@ -21,15 +37,15 @@ const PublicLayoutHeader = () => {
           justify="center"
           align="center"
         >
-          {baseNavLinks.map((navLink) => {
+          {navLinks.map((navLink) => {
             const { id, to, title, textContent } = navLink;
 
             return (
-              <li key={id}>
+              <BoxLayout is="li" paddingBlock="1em" key={id}>
                 <Link to={to} title={title}>
                   {textContent}
                 </Link>
-              </li>
+              </BoxLayout>
             );
           })}
         </ClusterLayout>

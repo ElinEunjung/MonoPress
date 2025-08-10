@@ -1,0 +1,24 @@
+:root {
+  --flow-margin: 1em;
+}
+
+.stack {
+  --flow-gap: 1em;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  gap: var(--flow-gap, 1em);
+}
+
+.stack > * {
+  margin-block: 0;
+}
+
+.stack > * + * {
+  margin-block-start: var(--flow-margin);
+}
+
+.stack-recursive * + * {
+  margin-block-start: var(--flow-margin, 1em);
+}
