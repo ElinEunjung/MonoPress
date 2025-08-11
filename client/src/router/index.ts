@@ -10,6 +10,7 @@ import LoginPage from "../pages/logins/login-page.component";
 import NewsPage from "@/pages/news/news-page.component";
 import ArticlePage from "@/pages/news/pages/Article.component";
 import CreateArticle from "@/pages/dashboards/components/layouts/components/create-article.component";
+import EditArticle from "@/pages/dashboards/components/layouts/components/edit-article-component";
 import ProfilePage from "@/pages/profiles/profile-page.component";
 
 export const router = createBrowserRouter([
@@ -45,6 +46,10 @@ export const router = createBrowserRouter([
       {
         path: "create",
         Component: CreateArticle,
+      },
+      {
+        path: "edit",
+        Component: EditArticle,
       },
     ],
   },

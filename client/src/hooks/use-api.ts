@@ -41,7 +41,7 @@ export function useApi<TData = unknown, TBody = unknown>(
         if (error instanceof AxiosError) {
           setError(error);
         }
-        throw error;
+        return null;
       } finally {
         setIsLoading(false);
       }
