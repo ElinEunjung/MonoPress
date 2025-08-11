@@ -12,6 +12,7 @@ interface AuthVerifySessionProps {
   }) => ReactNode;
 }
 
+// TODO: Handle it more elegantly to only do use useAPI if isValidSession is true, otherwise, don't to API call to the backend
 const AuthVerifySession = ({ children }: AuthVerifySessionProps) => {
   const [isValidSession, setIsValidSession] = useState(false);
   const location = useLocation();
@@ -39,7 +40,7 @@ const AuthVerifySession = ({ children }: AuthVerifySessionProps) => {
   return children({
     isValidSession,
     isLoading,
-    user: userInfoData,
+    user: userInfoData!,
   });
 };
 

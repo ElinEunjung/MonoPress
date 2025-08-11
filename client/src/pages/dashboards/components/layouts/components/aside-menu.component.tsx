@@ -11,12 +11,12 @@ const AsideMenu = () => {
         <hr />
         <StackLayout is="menu" className="list-none" gap="0.5em">
           <li>
-            <Link to="/dashboard/list" title="Liste av alle artikler">
+            <Link to="/dashboard/articles" title="Liste av alle artikler">
               Liste Artikler
             </Link>
           </li>
           <li>
-            <Link to="/dashboard/create" title="opprett artikkel">
+            <Link to="/dashboard/articles/new" title="opprett artikkel">
               Opprett artikkel
             </Link>
           </li>

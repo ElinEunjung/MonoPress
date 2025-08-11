@@ -1,6 +1,6 @@
 import { newsSchemaModel } from "./news-schema.mongo";
 
-interface NewsPayload {
+export interface NewsPayload {
   user: {
     googleId: string;
   };

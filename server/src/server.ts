@@ -1,6 +1,6 @@
 import http from "http";
 import { app } from "./app";
-import { mongoDBConnect } from "./services/mongo";
+import { mongoDBConnect } from "./databases/mongo";
 
 const server = http.createServer(app);
 

@@ -15,7 +15,7 @@ export function useApi<TData = unknown, TBody = unknown>(
     method: "get",
   },
 ) {
-  const [data, setData] = useState<TData | null>(null);
+  const [data, setData] = useState<TData>();
   const [isLoading, setIsLoading] = useState(false);
   const [isError, setIsError] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);

@@ -8,9 +8,9 @@ import ProtectedRoutes from "../pages/dashboards/components/protected-routes/pro
 
 import LoginPage from "../pages/logins/login-page.component";
 import NewsPage from "@/pages/news/news-page.component";
-import ArticlePage from "@/pages/news/pages/Article.component";
-import CreateArticle from "@/pages/dashboards/components/layouts/components/create-article.component";
-import EditArticle from "@/pages/dashboards/components/layouts/components/edit-article-component";
+import CreateArticle from "@/pages/dashboards/pages/articles/pages/create-articles/create-article-page.component";
+import ArticlePage from "@/pages/dashboards/pages/articles/article-page";
+import EditArticle from "@/pages/dashboards/pages/articles/pages/edit-articles/edit-article-page.component";
 import ProfilePage from "@/pages/profiles/profile-page.component";
 
 export const router = createBrowserRouter([
@@ -24,7 +24,7 @@ export const router = createBrowserRouter([
         children: [
           {
             path: ":id",
-            Component: ArticlePage,
+            // Component: TODO: CREATE NewsPage,
           },
         ],
       },
@@ -44,12 +44,18 @@ export const router = createBrowserRouter([
     Component: ProtectedRoutes,
     children: [
       {
-        path: "create",
-        Component: CreateArticle,
-      },
-      {
-        path: "edit",
-        Component: EditArticle,
+        path: "articles",
+        Component: ArticlePage,
+        children: [
+          {
+            path: "new",
+            Component: CreateArticle,
+          },
+          {
+            path: "edit/:id",
+            Component: EditArticle,
+          },
+        ],
       },
     ],
   },

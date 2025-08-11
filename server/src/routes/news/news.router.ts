@@ -1,9 +1,16 @@
 import express from "express";
-import { handleAddNews, handleGetAllNews } from "./news.controller";
+import {
+  handleAddNews,
+  handleEditNewsById,
+  handleDeleteNewsById,
+  handleGetNewsByUser,
+} from "./news.controller";
 
 const newsRouter = express.Router();
 
-newsRouter.get("/news", handleGetAllNews);
+newsRouter.get("/news", handleGetNewsByUser);
 newsRouter.post("/news", handleAddNews);
+newsRouter.put("/news/:id", handleEditNewsById);
+newsRouter.delete("/news/:id", handleDeleteNewsById);
 
 export { newsRouter };

@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 
-const ADD_NEWS_SCHEMA = new mongoose.Schema({
+const NEWS_MONGOOSE_SCHEMA = new mongoose.Schema({
   user: {
     googleId: {
       type: String,
@@ -28,8 +28,9 @@ const ADD_NEWS_SCHEMA = new mongoose.Schema({
     type: String,
     required: true,
   },
+  comments: {
+    userId: {},
+  },
 });
 
-const newsSchemaModel = mongoose.model("news", ADD_NEWS_SCHEMA);
-
-export { newsSchemaModel };
+export const newsSchemaModel = mongoose.model("news", NEWS_MONGOOSE_SCHEMA);
