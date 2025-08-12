@@ -12,8 +12,8 @@ const newsRouter = express.Router();
 const uploadNewsImage = multerStorage.uploadToLocalServer().single("image");
 
 newsRouter.post("/news", uploadNewsImage, handleCreateNews);
-newsRouter.get("/news", handleGetNewsByUser);
-newsRouter.put("/news/:id", handleEditNewsById);
+newsRouter.put("/news/:id", uploadNewsImage, handleEditNewsById);
 newsRouter.delete("/news/:id", handleDeleteNewsById);
+newsRouter.get("/news", handleGetNewsByUser);
 
 export { newsRouter };

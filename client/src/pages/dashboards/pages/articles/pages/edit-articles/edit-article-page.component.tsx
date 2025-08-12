@@ -8,6 +8,11 @@ import type { News } from "@/types/news.type";
 import { useEffect, useState, type ChangeEvent, type FormEvent } from "react";
 import StackLayout from "@/components/compositions/stack-layouts/stack-layout.component";
 import { ARTICLE_CATEGORIES } from "../models/constants/article-categories.constant";
+import type { ArticleErrors } from "../types/article-model.type";
+
+interface EditableNews extends News {
+  image?: File | null;
+}
 
 const EditArticlePage = () => {
   const params = useParams<{ id: string }>();
@@ -15,16 +20,18 @@ const EditArticlePage = () => {
 
   const currentNews = newsData?.find((newsDatum) => newsDatum.id === params.id);
 
-  const [errorMessage, setErrorMessage] = useState<{
-    title?: string;
-    category?: string;
-    content?: string;
-  }>({});
+  const [errorMessage, setErrorMessage] = useState<ArticleErrors>({
+    title: "",
+    category: "",
+    content: "",
+    imageUrl: "",
+    image: "",
+  });
 
-  const [articlePayload, setArticlePayload] = useState<News | undefined>(
-    currentNews,
+  const [imagePreview, setImagePreview] = useState<string | null>(null);
+  const [editArticlePayload, setEditArticlePayload] = useState<EditableNews>(
+    currentNews!,
   );
-
   const api = useApi(`/news/${params.id}`, { method: "put" });
 
   useEffect(() => {
@@ -32,6 +39,20 @@ const EditArticlePage = () => {
       alert("Artikkelen ble oppdatert");
     }
   }, [api.isSuccess]);
+
+  useEffect(() => {
+    if (api.isError) {
+      console.log(api.error);
+      alert(api.error?.message);
+    }
+  }, [api.isError, api.error]);
+
+  // Set initial image preview from existing article
+  useEffect(() => {
+    if (editArticlePayload?.imageUrl) {
+      setImagePreview(editArticlePayload.imageUrl);
+    }
+  }, [editArticlePayload?.imageUrl]);
 
   function handleChangePayload(
     event: ChangeEvent<
@@ -41,26 +62,58 @@ const EditArticlePage = () => {
     const state = event.target.dataset.state as
       | "title"
       | "category"
-      | "content";
-    const currentValue = event.target.value;
+      | "content"
+      | "image";
 
-    setArticlePayload((prev) => {
-      if (!prev) return prev;
-      return {
-        ...prev,
-        [state]: currentValue,
-      };
-    });
+    if (state === "image") {
+      const files = (event.target as HTMLInputElement).files;
+      const file = files && files[0] ? files[0] : null;
+
+      // Create preview URL for the selected image
+      if (file instanceof File) {
+        const reader = new FileReader();
+        reader.onload = (e) => {
+          setImagePreview(e.target?.result as string);
+        };
+        reader.readAsDataURL(file);
+      } else {
+        setImagePreview(null);
+      }
+
+      // Update state with the file
+      setEditArticlePayload((prev) => {
+        if (!prev) return prev;
+        return {
+          ...prev,
+          image: file, // Store the File object
+        };
+      });
+    } else {
+      // Handle other field changes
+      setEditArticlePayload((prev) => {
+        if (!prev) return prev;
+        return {
+          ...prev,
+          [state]: event.target.value,
+        };
+      });
+    } // Clear error message for the field being changed
+    setErrorMessage((prev) => ({
+      ...prev,
+      [state]: "",
+    }));
   }
 
-  function handleRequestSubmit(event: FormEvent<HTMLFormElement>) {
+  async function handleRequestSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
-    if (!articlePayload) return;
+    if (!editArticlePayload) return;
 
-    const validationErrors = {
-      title: !articlePayload.title ? "Tittel er påkrevd" : "",
-      content: !articlePayload.content ? "Innhold er påkrevd" : "",
-      category: !articlePayload.category ? "Kategori er påkrevd" : "",
+    const validationErrors: ArticleErrors = {
+      title: !editArticlePayload.title ? "Tittel er påkrevd" : "",
+      content: !editArticlePayload.content ? "Innhold er påkrevd" : "",
+      category: !editArticlePayload.category ? "Kategori er påkrevd" : "",
+      imageUrl: !editArticlePayload.imageUrl ? "Bilde er påkrevd" : "",
+      image: "",
     };
 
     setErrorMessage(validationErrors);
@@ -68,7 +121,19 @@ const EditArticlePage = () => {
     const isFormValid = !Object.values(validationErrors).some((error) => error);
 
     if (isFormValid) {
-      api.mutate(articlePayload);
+      const formData = new FormData();
+      formData.append("title", editArticlePayload.title);
+      formData.append("category", editArticlePayload.category);
+      formData.append("content", editArticlePayload.content);
+
+      // If there's a new image file, append it
+      if (editArticlePayload.image) {
+        formData.append("image", editArticlePayload.image);
+      }
+      // Always send the current imageUrl
+      formData.append("imageUrl", editArticlePayload.imageUrl);
+
+      await api.mutate(formData);
     }
   }
 
@@ -81,7 +146,7 @@ const EditArticlePage = () => {
             label="Tittel"
             type="text"
             placeholder="Skriv tittel"
-            value={articlePayload?.title}
+            value={editArticlePayload?.title}
             onChange={handleChangePayload}
             data-state="title"
             errorMessage={errorMessage.title || ""}
@@ -89,20 +154,43 @@ const EditArticlePage = () => {
 
           <SelectField
             label="Kategori"
-            value={articlePayload?.category}
+            value={editArticlePayload?.category}
             onChange={handleChangePayload}
             data-state="category"
             options={ARTICLE_CATEGORIES}
             errorMessage={errorMessage.category || ""}
           />
 
+          {imagePreview && (
+            <div style={{ maxWidth: "300px", margin: "1em 0" }}>
+              <img
+                src={imagePreview}
+                alt="Article Preview"
+                style={{
+                  width: "100%",
+                  height: "auto",
+                  borderRadius: "4px",
+                }}
+              />
+            </div>
+          )}
+
+          <InputField
+            type="file"
+            label="Last opp Bilde"
+            onChange={handleChangePayload}
+            accept="image/*"
+            data-state="image"
+            errorMessage={errorMessage.image}
+          />
+
           <TextAreaField
             label="Innhold"
-            value={articlePayload?.content}
+            value={editArticlePayload?.content}
             placeholder="Skriv inn innhold"
             onChange={handleChangePayload}
             data-state="content"
-            errorMessage={errorMessage?.content && "Innhold er påkrevd"}
+            errorMessage={errorMessage.content}
           />
 
           <button type="submit" style={{ width: "fit-content" }} title="endre">

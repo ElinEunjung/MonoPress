@@ -17,7 +17,7 @@ const SelectField = ({
   ...restProps
 }: SelectFieldProps) => {
   return (
-    <StackLayout>
+    <StackLayout gap="0">
       <label htmlFor={label}>{label}</label>
       <select id={label} {...restProps}>
         {options.map((option) => (

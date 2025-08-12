@@ -3,10 +3,10 @@ import { useOutletContext, useParams } from "react-router";
 import CenterLayout from "@/components/compositions/center-layouts/center-layout.component";
 import StackLayout from "@/components/compositions/stack-layouts/stack-layout.component";
 
-import style from "./view-news-by-id.module.css";
+import style from "./view-public-article-by-id.module.css";
 import { formatNorwegianDate } from "../../utils/date.util";
 
-const ViewNewsById = () => {
+const ViewPublicArticleById = () => {
   const params = useParams<{ id: string }>();
   const publicNews = useOutletContext<News[]>();
 
@@ -35,4 +35,4 @@ const ViewNewsById = () => {
   );
 };
 
-export default ViewNewsById;
+export default ViewPublicArticleById;

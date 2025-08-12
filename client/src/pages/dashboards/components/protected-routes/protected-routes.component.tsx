@@ -24,7 +24,7 @@ const ProtectedRoutes = () => {
         }
 
         if (isValidSession && user!.resources.role === "editor") {
-          renderComponent = <EditorDashboardLayout />;
+          renderComponent = <EditorDashboardLayout user={user} />;
         }
 
         if (!isValidSession) {

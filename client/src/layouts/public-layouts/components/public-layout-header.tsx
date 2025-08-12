@@ -13,7 +13,7 @@ const PublicLayoutHeader = () => {
   if (userInfoCtx.userInfo.name) {
     navLinks = navLinks.concat([
       {
-        id: 3,
+        id: 2,
         to: "/profile",
         title: "profile",
         textContent: "Profile",

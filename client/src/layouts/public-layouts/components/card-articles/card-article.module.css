@@ -23,8 +23,8 @@
 }
 
 .article__image {
-  width: 15rem;
   height: 15rem;
   margin-inline: auto;
   flex-grow: 1;
+  object-fit: contain;
 }

@@ -7,7 +7,7 @@ import Error from "../components/error.component";
 import ProtectedRoutes from "../pages/dashboards/components/protected-routes/protected-routes.component";
 
 import LoginPage from "../pages/logins/login-page.component";
-import ViewNewsById from "@/pages/news/view-news-by-id.component";
+import ViewPublicArticleById from "@/pages/news/view-public-article-by-id.component";
 import CreateArticle from "@/pages/dashboards/pages/articles/pages/create-articles/create-article-page.component";
 import ArticlePage from "@/pages/dashboards/pages/articles/article-page";
 import EditArticle from "@/pages/dashboards/pages/articles/pages/edit-articles/edit-article-page.component";
@@ -20,7 +20,7 @@ export const router = createBrowserRouter([
     children: [
       {
         path: "news/:id",
-        Component: ViewNewsById,
+        Component: ViewPublicArticleById,
       },
 
       {

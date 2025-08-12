@@ -12,6 +12,7 @@ import type {
   ArticleErrors,
   ArticlePayload,
 } from "../types/article-model.type";
+import ClusterLayout from "@/components/compositions/cluster-layouts/cluster-layout.component";
 
 const INITIAL_ARTICLE: ArticlePayload = {
   title: "",
@@ -29,6 +30,7 @@ const CreateArticle = () => {
     imageUrl: "",
     content: "",
   });
+  const [imagePreview, setImagePreview] = useState<string | null>(null);
   const [articlePayload, setArticlePayload] =
     useState<ArticlePayload>(INITIAL_ARTICLE);
 
@@ -65,6 +67,17 @@ const CreateArticle = () => {
     if (state === "image") {
       const files = (event.target as HTMLInputElement).files;
       currentValue = files && files[0] ? files[0] : null;
+
+      // Create preview URL for the selected image
+      if (currentValue instanceof File) {
+        const reader = new FileReader();
+        reader.onload = (event) => {
+          setImagePreview(event.target?.result as string);
+        };
+        reader.readAsDataURL(currentValue);
+      } else {
+        setImagePreview(null);
+      }
     }
 
     setArticlePayload((prev) => {
@@ -109,7 +122,17 @@ const CreateArticle = () => {
     }
   }
 
-  console.log(errorMessage);
+  function handleResetForm() {
+    setArticlePayload(INITIAL_ARTICLE);
+    setErrorMessage({
+      title: "",
+      image: "",
+      category: "",
+      imageUrl: "",
+      content: "",
+    });
+    setImagePreview(null);
+  }
 
   return (
     <>
@@ -125,6 +148,20 @@ const CreateArticle = () => {
             data-state="title"
             errorMessage={errorMessage.title}
           />
+
+          {imagePreview && (
+            <div style={{ maxWidth: "300px", margin: "1em 0" }}>
+              <img
+                src={imagePreview}
+                alt="Article Preview"
+                style={{
+                  width: "100%",
+                  height: "auto",
+                  borderRadius: "4px",
+                }}
+              />
+            </div>
+          )}
 
           <InputField
             type="file"
@@ -153,13 +190,14 @@ const CreateArticle = () => {
             errorMessage={errorMessage.content}
           />
 
-          <button
-            type="submit"
-            style={{ width: "fit-content" }}
-            title="publiser"
-          >
-            Publiser
-          </button>
+          <ClusterLayout>
+            <button type="submit" title="publiser">
+              Publiser
+            </button>
+            <button type="reset" onClick={handleResetForm} title="Annuller">
+              Annuller
+            </button>
+          </ClusterLayout>
         </StackLayout>
       </form>
     </>

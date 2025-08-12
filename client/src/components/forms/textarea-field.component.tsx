@@ -12,7 +12,7 @@ const TextAreaField = ({
   ...restTextAreaFieldProps
 }: TextAreaFieldProps) => {
   return (
-    <StackLayout>
+    <StackLayout gap="0">
       <label htmlFor={label}>{label}</label>
 
       <textarea id={label} rows={30} cols={30} {...restTextAreaFieldProps} />

@@ -12,7 +12,7 @@ const InputField = ({
   ...restInputFieldProps
 }: InputFieldProps) => {
   return (
-    <StackLayout>
+    <StackLayout gap="0">
       <label htmlFor={label}>{label}</label>
       <input id={label} {...restInputFieldProps} />
 
