@@ -1,6 +1,6 @@
 import { formatNorwegianDate } from "@/utils/date.util";
 import { Link } from "react-router";
-import type { News } from "../../../components/layouts/types/news.type";
+import type { News } from "../../../../../types/news.type";
 import { useApi } from "@/hooks/use-api";
 import { useState, useEffect } from "react";
 import StackLayout from "@/components/compositions/stack-layouts/stack-layout.component";
@@ -45,6 +45,7 @@ const ViewDashboardArticle = ({ newsData }: ViewDashboardArticleProps) => {
             <th scope="col">Kategori</th>
             <th scope="col">Opprettet</th>
             <th scope="col">Oppdatert</th>
+            <th scope="col">Endre</th>
             <th scope="col">Slett</th>
           </tr>
         </thead>
@@ -52,15 +53,20 @@ const ViewDashboardArticle = ({ newsData }: ViewDashboardArticleProps) => {
           {newsData?.map((newsDatum) => {
             return (
               <tr key={newsDatum.id}>
-                <td>
-                  <Link to={`/dashboard/articles/edit/${newsDatum.id}`}>
-                    {newsDatum.title}
-                  </Link>
-                </td>
+                <td>{newsDatum.title}</td>
                 <td>{newsDatum.category}</td>
                 <td>{formatNorwegianDate(newsDatum.createdAt)}</td>
                 <td>
                   {formatNorwegianDate(newsDatum.updatedAt!, "Ikke oppdatert")}
+                </td>
+
+                <td>
+                  <Link
+                    to={`/dashboard/articles/edit/${newsDatum.id}`}
+                    title={`Rediger ${newsDatum.title}`}
+                  >
+                    📝 Rediger
+                  </Link>
                 </td>
                 <td>
                   <button

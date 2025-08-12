@@ -1,6 +1,6 @@
 import { Outlet, useLocation } from "react-router";
 import { useApi } from "@/hooks/use-api";
-import type { News } from "../../components/layouts/types/news.type";
+import type { News } from "../../../../types/news.type";
 
 import ViewDashboardArticle from "./components/view-dashboard-article.component";
 import LoadingSpinner from "@/components/loading-spinner.component";

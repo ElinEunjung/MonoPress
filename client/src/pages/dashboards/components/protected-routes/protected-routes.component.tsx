@@ -17,7 +17,7 @@ const ProtectedRoutes = () => {
       {({ isValidSession, user, isLoading }) => {
         if (isLoading) {
           return (
-            <CenterLayout max="50em" intrinsic textCenter>
+            <CenterLayout max="50em" intrinsic center textCenter>
               <LoadingSpinner />
             </CenterLayout>
           );

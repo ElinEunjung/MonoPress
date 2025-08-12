@@ -13,7 +13,7 @@ export function useApi<TData = unknown, TBody = unknown>(
   uri: string,
   options: HttpOptions = {
     method: "get",
-  }
+  },
 ) {
   const [data, setData] = useState<TData>();
   const [isLoading, setIsLoading] = useState(false);
@@ -51,7 +51,7 @@ export function useApi<TData = unknown, TBody = unknown>(
         setIsLoading(false);
       }
     },
-    [uri, options.method]
+    [uri, options.method],
   );
 
   useEffect(() => {

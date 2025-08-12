@@ -13,7 +13,7 @@ app.use(
   cors({
     origin: "http://localhost:5173",
     credentials: true, // sending and receiving cookies
-  })
+  }),
 );
 
 app.use(express.json());

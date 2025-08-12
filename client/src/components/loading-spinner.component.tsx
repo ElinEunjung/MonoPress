@@ -12,6 +12,8 @@ const LoadingSpinner = () => {
         background: "transparent",
       }}
       xmlnsXlink="http://www.w3.org/1999/xlink"
+      role="progressbar"
+      aria-label="Loading data"
     >
       <g>
         <g transform="rotate(0 50 50)">

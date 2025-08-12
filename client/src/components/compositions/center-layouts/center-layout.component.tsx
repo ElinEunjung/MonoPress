@@ -11,9 +11,10 @@ interface CenterLayoutProps {
   is?: HTMLTags;
   className?: string;
   textCenter?: boolean;
-  intrinsic?: boolean; // Center child elements based on their content width and full height of the viewport page
+  intrinsic?: boolean; // Center child elements based on their content width
   max?: CSSProperties["maxWidth"] | CSSProperties["maxInlineSize"]; // max-width value
   gutter?: CSSProperties["paddingInline"]; // The minimum space on either side of the content
+  center?: boolean; // center contain of the element of the child
 }
 
 const CenterLayout = (centerLayoutProps: CenterLayoutProps) => {
@@ -25,11 +26,13 @@ const CenterLayout = (centerLayoutProps: CenterLayoutProps) => {
     intrinsic,
     max,
     textCenter,
+    center,
   } = centerLayoutProps;
 
   const optionalCenterClassName = {
     [styles["text-center"]]: !!textCenter,
     [styles["intrinsic"]]: !!intrinsic,
+    [styles["center"]]: !!center,
   };
 
   const inlineClassName = clsx(

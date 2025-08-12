@@ -7,7 +7,7 @@ const localDiskStorage = multer.diskStorage({
   destination: function (
     req: Request,
     file: Express.Multer.File,
-    cb: (error: Error | null, destination: string) => void
+    cb: (error: Error | null, destination: string) => void,
   ) {
     // Files will be stored in the 'public/uploads' directory
     cb(null, "public/uploads/");
@@ -15,7 +15,7 @@ const localDiskStorage = multer.diskStorage({
   filename: function (
     req: Request,
     file: Express.Multer.File,
-    cb: (error: Error | null, filename: string) => void
+    cb: (error: Error | null, filename: string) => void,
   ) {
     // Usethe original filename with a unique timestamp
     cb(null, Date.now() + path.extname(file.originalname));

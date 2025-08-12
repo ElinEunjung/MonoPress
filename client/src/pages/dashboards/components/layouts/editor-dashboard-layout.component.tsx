@@ -10,7 +10,7 @@ const EditorDashboardLayout = () => {
     <div className={style["dashboard-layout"]}>
       <AsideMenu />
       <div className={style["dashboard-layout__content"]}>
-        <CenterLayout max="50em">
+        <CenterLayout max="50em" center>
           <WrapperLayout maxWidth="50em">
             <BoxLayout paddingBlock="5em">
               <Outlet />

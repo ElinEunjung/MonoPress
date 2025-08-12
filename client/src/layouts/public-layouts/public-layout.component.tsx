@@ -9,8 +9,18 @@ import BoxLayout from "@/components/compositions/box-layouts/box-layout.componen
 import ClusterLayout from "@/components/compositions/cluster-layouts/cluster-layout.component";
 
 import UserInfoProvider from "@/contexts/user-info-providers/user-info-provider";
+import CardArticle from "./components/card-articles/card-article.component";
+import { useLocation } from "react-router";
+import { useApi } from "@/hooks/use-api";
+import type { News } from "@/types/news.type";
+import CenterLayout from "@/components/compositions/center-layouts/center-layout.component";
+import LoadingSpinner from "@/components/loading-spinner.component";
 
 const MainLayout = () => {
+  const location = useLocation();
+  const { data: publicNewsData, isLoading: isLoadingPublicNews } =
+    useApi<News[]>("/public-news");
+
   return (
     <WrapperLayout is="main">
       <UserInfoProvider>
@@ -23,9 +33,17 @@ const MainLayout = () => {
                   <AuthButton isValidSession={isValidSession} />
                 </ClusterLayout>
               </BoxLayout>
-
               <PublicLayoutHeader />
-              <Outlet />
+              {isLoadingPublicNews && (
+                <CenterLayout intrinsic center>
+                  <LoadingSpinner />
+                </CenterLayout>
+              )}
+
+              {location.pathname === "/" && (
+                <CardArticle publicNews={publicNewsData!} />
+              )}
+              <Outlet context={publicNewsData} />
             </>
           )}
         </AuthVerifySession>

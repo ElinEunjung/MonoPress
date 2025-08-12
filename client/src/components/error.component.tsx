@@ -7,7 +7,7 @@ const Error = () => {
 
   if (code) {
     return (
-      <CenterLayout intrinsic>
+      <CenterLayout intrinsic center>
         <LoadingSpinner />
       </CenterLayout>
     );

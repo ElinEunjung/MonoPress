@@ -4,7 +4,7 @@ import { useApi } from "@/hooks/use-api";
 import InputField from "@/components/forms/input-field.component";
 import SelectField from "@/components/forms/select-field.component";
 import TextAreaField from "@/components/forms/textarea-field.component";
-import type { News } from "@/pages/dashboards/components/layouts/types/news.type";
+import type { News } from "@/types/news.type";
 import { useEffect, useState, type ChangeEvent, type FormEvent } from "react";
 import StackLayout from "@/components/compositions/stack-layouts/stack-layout.component";
 import { ARTICLE_CATEGORIES } from "../models/constants/article-categories.constant";

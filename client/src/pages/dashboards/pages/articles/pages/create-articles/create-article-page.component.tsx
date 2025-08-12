@@ -8,22 +8,10 @@ import InputField from "@/components/forms/input-field.component";
 import SelectField from "@/components/forms/select-field.component";
 import TextAreaField from "@/components/forms/textarea-field.component";
 import { ARTICLE_CATEGORIES } from "../models/constants/article-categories.constant";
-
-type ArticlePayload = {
-  title: string;
-  image: string | File | null;
-  category: string;
-  imageUrl: string;
-  content: string;
-};
-
-type ArticleErrors = {
-  title: string;
-  image: string;
-  category: string;
-  imageUrl: string;
-  content: string;
-};
+import type {
+  ArticleErrors,
+  ArticlePayload,
+} from "../types/article-model.type";
 
 const INITIAL_ARTICLE: ArticlePayload = {
   title: "",
@@ -65,7 +53,7 @@ const CreateArticle = () => {
   function handleChangePayload(
     event: ChangeEvent<
       HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
-    >
+    >,
   ) {
     const state = event.target.dataset.state as
       | "title"
@@ -138,20 +126,14 @@ const CreateArticle = () => {
             errorMessage={errorMessage.title}
           />
 
-          {/* Use a native input for file upload to ensure file object is passed */}
-          <div className="form-group">
-            <label htmlFor="file-input">Last opp bilde</label>
-            <input
-              id="file-input"
-              type="file"
-              accept="image/*"
-              onChange={handleChangePayload}
-              data-state="image"
-            />
-            {typeof errorMessage.image === "string" && errorMessage.image && (
-              <span style={{ color: "red" }}>{errorMessage.image}</span>
-            )}
-          </div>
+          <InputField
+            type="file"
+            label="Last opp Bilde"
+            onChange={handleChangePayload}
+            accept="image/*"
+            data-state="image"
+            errorMessage={errorMessage.image}
+          />
 
           <SelectField
             label="Kategori"
@@ -175,7 +157,6 @@ const CreateArticle = () => {
             type="submit"
             style={{ width: "fit-content" }}
             title="publiser"
-            disabled={!articlePayload.image}
           >
             Publiser
           </button>

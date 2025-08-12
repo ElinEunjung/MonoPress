@@ -20,5 +20,8 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
+}
+
+.center {
   min-height: 100dvh;
 }

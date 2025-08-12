@@ -1,4 +1,4 @@
-import { newsSchemaModel } from "../models/news-schema.mongo";
+import { newsSchemaModel } from "../../../models/news-schema.mongoose";
 import { userGoogleSchemaModel } from "../../auth/googles/models/user-google-schema.model";
 import type { NewsPayload } from "../types/news-payload.type";
 import { Types } from "mongoose";
@@ -72,7 +72,7 @@ export const newsService = {
       },
       {
         new: true, // returns the document after the update was applied
-      }
+      },
     );
   },
   async getUserNewsByGoogleId(googleId: string) {

@@ -6,7 +6,7 @@ import { userGoogleSchemaModel } from "../auth/googles/models/user-google-schema
 
 export async function handleGetNewsByUser(
   request: Request,
-  response: Response
+  response: Response,
 ) {
   try {
     const token = request.cookies.access_token;
@@ -57,7 +57,7 @@ export async function handleCreateNews(request: Request, response: Response) {
       return response.status(400).json({ message: "No file uploaded." });
     }
 
-    const { file, title, category, content } = request.body;
+    const { title, category, content } = request.body;
 
     const hasSameTitle = await newsService.hasSameNewsTitle(title);
     if (hasSameTitle) {
@@ -78,9 +78,9 @@ export async function handleCreateNews(request: Request, response: Response) {
       rootUri = "https://mono-press-5a039da642a5.herokuapp.com/";
     }
 
-    const fileUrl = `${rootUri}/uploads/${file.filename}`;
+    const fileUrl = `${rootUri}/uploads/${request.file.filename}`;
 
-    newsService.createNews({
+    await newsService.createNews({
       user: {
         googleId: user!.googleId,
       },
@@ -102,7 +102,7 @@ export async function handleCreateNews(request: Request, response: Response) {
 
 export async function handleDeleteNewsById(
   request: Request,
-  response: Response
+  response: Response,
 ) {
   const token = request.cookies.access_token;
   const newsId = request.params.id as string;
