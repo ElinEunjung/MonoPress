@@ -10,6 +10,9 @@ interface CardArticleProps {
 }
 
 const CardArticle = ({ publicNews }: CardArticleProps) => {
+  if (publicNews?.length === 0) {
+    return <h2>Ingen nyheter tilgjengelig</h2>;
+  }
   return (
     <GridLayout>
       {publicNews?.map((newsItem) => (

@@ -41,7 +41,7 @@ const CreateArticle = () => {
   useEffect(() => {
     if (api.isSuccess) {
       alert("Artikkelen ble opprettet");
-      setArticlePayload(INITIAL_ARTICLE);
+      window.location.reload();
     }
   }, [api.isSuccess]);
 

@@ -5,6 +5,7 @@ import StackLayout from "@/components/compositions/stack-layouts/stack-layout.co
 
 import style from "./view-public-article-by-id.module.css";
 import { formatNorwegianDate } from "../../utils/date.util";
+import ClusterLayout from "@/components/compositions/cluster-layouts/cluster-layout.component";
 
 const ViewPublicArticleById = () => {
   const params = useParams<{ id: string }>();
@@ -23,9 +24,25 @@ const ViewPublicArticleById = () => {
 
         <img src={currentNewsItem.imageUrl} alt={currentNewsItem.title} />
 
+        <ClusterLayout>
+          <p>
+            <strong>Opprettet:</strong>
+            {formatNorwegianDate(currentNewsItem.createdAt)}
+          </p>
+
+          {currentNewsItem.updatedAt && (
+            <>
+              <p>
+                <strong>oppdatert:</strong>
+                {formatNorwegianDate(currentNewsItem.createdAt)}
+              </p>
+            </>
+          )}
+        </ClusterLayout>
+
         <p>
-          <strong>Artikkel opprettet:</strong>
-          {formatNorwegianDate(currentNewsItem.createdAt)}
+          <strong>Kategori: </strong>
+          {currentNewsItem.category}
         </p>
 
         <hr />

@@ -37,6 +37,7 @@ const EditArticlePage = () => {
   useEffect(() => {
     if (api.isSuccess) {
       alert("Artikkelen ble oppdatert");
+      window.location.reload();
     }
   }, [api.isSuccess]);
 
