@@ -13,13 +13,15 @@ app.use(
   cors({
     origin: "http://localhost:5173",
     credentials: true, // sending and receiving cookies
-  }),
+  })
 );
 
 app.use(express.json());
 app.use(cookieParser());
 
 // Serve static files from the Vite build directory
+app.use(express.static("public"));
+app.use("/uploads", express.static("uploads"));
 app.use(express.static(path.join(__dirname, "../../client/dist")));
 
 app.use("/api", api);

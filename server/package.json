@@ -7,17 +7,19 @@
     "test:ui": "vitest --ui"
   },
   "dependencies": {
+    "@types/cookie-parser": "^1.4.9",
     "@types/cors": "^2.8.19",
     "@types/express": "^5.0.0",
-    "@types/node": "^24.2.0",
-    "@types/cookie-parser": "^1.4.9",
     "@types/jsonwebtoken": "^9.0.10",
+    "@types/multer": "^2.0.0",
+    "@types/node": "^24.2.0",
     "cookie-parser": "^1.4.7",
     "cors": "^2.8.5",
     "dotenv": "^16.4.5",
     "express": "^4.21.2",
     "jsonwebtoken": "^9.0.2",
     "mongoose": "^8.17.0",
+    "multer": "^2.0.2",
     "ts-node": "^10.9.2"
   },
   "devDependencies": {

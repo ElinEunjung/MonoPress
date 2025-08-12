@@ -13,7 +13,7 @@ export function useApi<TData = unknown, TBody = unknown>(
   uri: string,
   options: HttpOptions = {
     method: "get",
-  },
+  }
 ) {
   const [data, setData] = useState<TData>();
   const [isLoading, setIsLoading] = useState(false);
@@ -39,14 +39,19 @@ export function useApi<TData = unknown, TBody = unknown>(
       } catch (error) {
         setIsError(true);
         if (error instanceof AxiosError) {
-          setError(error);
+          // Extract the error message from the backend response if available
+          const backendError = error.response?.data;
+          setError({
+            ...error,
+            message: backendError?.message || error.message,
+          });
         }
         return null;
       } finally {
         setIsLoading(false);
       }
     },
-    [uri, options.method],
+    [uri, options.method]
   );
 
   useEffect(() => {

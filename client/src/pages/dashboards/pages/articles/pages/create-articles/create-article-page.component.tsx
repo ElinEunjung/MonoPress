@@ -9,16 +9,40 @@ import SelectField from "@/components/forms/select-field.component";
 import TextAreaField from "@/components/forms/textarea-field.component";
 import { ARTICLE_CATEGORIES } from "../models/constants/article-categories.constant";
 
-const INITIAL_ARTICLE = {
+type ArticlePayload = {
+  title: string;
+  image: string | File | null;
+  category: string;
+  imageUrl: string;
+  content: string;
+};
+
+type ArticleErrors = {
+  title: string;
+  image: string;
+  category: string;
+  imageUrl: string;
+  content: string;
+};
+
+const INITIAL_ARTICLE: ArticlePayload = {
   title: "",
   image: "",
   category: "",
+  imageUrl: "",
   content: "",
 };
 
 const CreateArticle = () => {
-  const [errorMessage, setErrorMessage] = useState(INITIAL_ARTICLE);
-  const [articlePayload, setArticlePayload] = useState(INITIAL_ARTICLE);
+  const [errorMessage, setErrorMessage] = useState<ArticleErrors>({
+    title: "",
+    image: "",
+    category: "",
+    imageUrl: "",
+    content: "",
+  });
+  const [articlePayload, setArticlePayload] =
+    useState<ArticlePayload>(INITIAL_ARTICLE);
 
   const api = useApi("/news", {
     method: "post",
@@ -31,6 +55,13 @@ const CreateArticle = () => {
     }
   }, [api.isSuccess]);
 
+  useEffect(() => {
+    if (api.isError) {
+      console.log(api.error);
+      alert(api.error?.message);
+    }
+  }, [api.isError]);
+
   function handleChangePayload(
     event: ChangeEvent<
       HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
@@ -41,13 +72,12 @@ const CreateArticle = () => {
       | "category"
       | "content"
       | "image";
-    let currentValue = event.target.value;
+    let currentValue: string | File | null = event.target.value;
 
     if (state === "image") {
-      currentValue = (event.target as HTMLInputElement).files;
+      const files = (event.target as HTMLInputElement).files;
+      currentValue = files && files[0] ? files[0] : null;
     }
-
-    console.log("currentValue", currentValue);
 
     setArticlePayload((prev) => {
       return {
@@ -55,15 +85,22 @@ const CreateArticle = () => {
         [state]: currentValue,
       };
     });
+
+    // Clear error message for the field being changed
+    setErrorMessage((prev) => ({
+      ...prev,
+      [state]: "",
+    }));
   }
 
-  function handleRequestSubmit(event: FormEvent<HTMLFormElement>) {
+  async function handleRequestSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
-    const validationErrors = {
+    const validationErrors: ArticleErrors = {
       title: !articlePayload.title ? "Tittel er påkrevd" : "",
       content: !articlePayload.content ? "Innhold er påkrevd" : "",
       image: !articlePayload.image ? "Bilde er påkrevd" : "",
       category: !articlePayload.category ? "Kategori er påkrevd" : "",
+      imageUrl: "",
     };
 
     setErrorMessage(validationErrors);
@@ -71,14 +108,25 @@ const CreateArticle = () => {
     const isFormValid = !Object.values(validationErrors).some((error) => error);
 
     if (isFormValid) {
-      api.mutate(articlePayload);
+      // Build FormData for file upload
+      const formData = new FormData();
+      formData.append("title", articlePayload.title);
+      formData.append("category", articlePayload.category);
+      formData.append("content", articlePayload.content);
+      if (articlePayload.image) {
+        formData.append("image", articlePayload.image);
+      }
+
+      await api.mutate(formData);
     }
   }
+
+  console.log(errorMessage);
 
   return (
     <>
       <h1 style={{ marginBottom: "1em" }}>Opprett artikkel</h1>
-      <form onSubmit={handleRequestSubmit}>
+      <form onSubmit={handleRequestSubmit} encType="multipart/form-data">
         <StackLayout>
           <InputField
             label="Tittel"
@@ -87,18 +135,23 @@ const CreateArticle = () => {
             value={articlePayload.title}
             onChange={handleChangePayload}
             data-state="title"
-            errorMessage={errorMessage.title && "Tittel er påkrevd"}
+            errorMessage={errorMessage.title}
           />
 
-          <InputField
-            label="Last opp bilde"
-            type="file"
-            placeholder="Last opp ett bilde"
-            value={articlePayload.image}
-            onChange={handleChangePayload}
-            data-state="image"
-            errorMessage={errorMessage.image && "Bilde er påkrevd"}
-          />
+          {/* Use a native input for file upload to ensure file object is passed */}
+          <div className="form-group">
+            <label htmlFor="file-input">Last opp bilde</label>
+            <input
+              id="file-input"
+              type="file"
+              accept="image/*"
+              onChange={handleChangePayload}
+              data-state="image"
+            />
+            {typeof errorMessage.image === "string" && errorMessage.image && (
+              <span style={{ color: "red" }}>{errorMessage.image}</span>
+            )}
+          </div>
 
           <SelectField
             label="Kategori"
@@ -106,7 +159,7 @@ const CreateArticle = () => {
             onChange={handleChangePayload}
             data-state="category"
             options={ARTICLE_CATEGORIES}
-            errorMessage={errorMessage.category && "Kategori er påkrevd"}
+            errorMessage={errorMessage.category}
           />
 
           <TextAreaField
@@ -115,13 +168,14 @@ const CreateArticle = () => {
             value={articlePayload.content}
             onChange={handleChangePayload}
             data-state="content"
-            errorMessage={errorMessage.content && "Innhold er påkrevd"}
+            errorMessage={errorMessage.content}
           />
 
           <button
             type="submit"
             style={{ width: "fit-content" }}
             title="publiser"
+            disabled={!articlePayload.image}
           >
             Publiser
           </button>

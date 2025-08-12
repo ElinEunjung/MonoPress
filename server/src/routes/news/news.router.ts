@@ -1,15 +1,18 @@
 import express from "express";
 import {
-  handleAddNews,
+  handleCreateNews,
   handleEditNewsById,
   handleDeleteNewsById,
   handleGetNewsByUser,
 } from "./news.controller";
+import { multerStorage } from "./services/multer-storge.service";
 
 const newsRouter = express.Router();
 
+const uploadNewsImage = multerStorage.uploadToLocalServer().single("image");
+
+newsRouter.post("/news", uploadNewsImage, handleCreateNews);
 newsRouter.get("/news", handleGetNewsByUser);
-newsRouter.post("/news", handleAddNews);
 newsRouter.put("/news/:id", handleEditNewsById);
 newsRouter.delete("/news/:id", handleDeleteNewsById);
 

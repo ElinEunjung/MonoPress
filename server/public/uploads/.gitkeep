@@ -1,0 +1,3 @@
+Denne filen er lagt til for å tvinge Git til å inkludere mappen public/uploads i commiten.
+Siden Git ignorerer tomme mapper, ville denne endringen ellers ikke blitt fanget opp,
+og mappen ville derfor ikke blitt deoloyet til serveren.

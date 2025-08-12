@@ -11,14 +11,9 @@ const NEWS_MONGOOSE_SCHEMA = new mongoose.Schema({
     type: String,
     required: true,
   },
-  createdAt: {
-    type: Date,
-    default: Date.now,
-  },
-  updatedAt: {
-    type: Date,
-    default: null,
-    required: false,
+  imageUrl: {
+    type: String,
+    required: true,
   },
   category: {
     type: String,
@@ -27,6 +22,15 @@ const NEWS_MONGOOSE_SCHEMA = new mongoose.Schema({
   content: {
     type: String,
     required: true,
+  },
+  createdAt: {
+    type: Date,
+    default: Date.now,
+  },
+  updatedAt: {
+    type: Date,
+    default: null,
+    required: false,
   },
   comments: {
     userId: {},

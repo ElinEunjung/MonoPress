@@ -1,5 +1,4 @@
 import type { Response, Request } from "express";
-import { addNews } from "./models/news.model";
 import { JwtToken } from "../auth/googles/helpers/jwt-token.helper";
 import type { UserModel } from "../auth/models/types/user-model.type";
 import { newsService } from "./services/news.service";
@@ -7,7 +6,7 @@ import { userGoogleSchemaModel } from "../auth/googles/models/user-google-schema
 
 export async function handleGetNewsByUser(
   request: Request,
-  response: Response,
+  response: Response
 ) {
   try {
     const token = request.cookies.access_token;
@@ -29,7 +28,7 @@ export async function handleGetNewsByUser(
 export async function handleEditNewsById(request: Request, response: Response) {
   const token = request.cookies.access_token;
   const newsId = request.params.id as string;
-  const { title, category, content } = request.body;
+  const { title, category, content, imageUrl } = request.body;
 
   const { accessToken } = JwtToken.verifyAndDecrypt<UserModel>(token);
   const user = await newsService.findUserByAccessToken(accessToken);
@@ -42,6 +41,7 @@ export async function handleEditNewsById(request: Request, response: Response) {
       title,
       category,
       content,
+      imageUrl: imageUrl || userNews!.imageUrl, // Keep existing imageUrl if not provided
       updatedAt: new Date(),
     },
   };
@@ -51,29 +51,48 @@ export async function handleEditNewsById(request: Request, response: Response) {
   response.status(201).end();
 }
 
-export async function handleAddNews(request: Request, response: Response) {
+export async function handleCreateNews(request: Request, response: Response) {
   try {
-    const payload = request.body;
+    if (!request.file) {
+      return response.status(400).json({ message: "No file uploaded." });
+    }
+
+    const { file, title, category, content } = request.body;
+
+    const hasSameTitle = await newsService.hasSameNewsTitle(title);
+    if (hasSameTitle) {
+      return response.status(400).json({
+        message: "Nyhets artikkelen av samme navn eksisterer allerede",
+      });
+    }
+
     const token = request.cookies.access_token;
 
     const { accessToken } = JwtToken.verifyAndDecrypt<UserModel>(token);
     const user = await userGoogleSchemaModel.findOne({ accessToken });
 
-    const newNews = await addNews({
+    let rootUri = "http://localhost:3000";
+
+    const isProductionEnvironment = process.env.NODE_ENV === "production";
+    if (isProductionEnvironment) {
+      rootUri = "https://mono-press-5a039da642a5.herokuapp.com/";
+    }
+
+    const fileUrl = `${rootUri}/uploads/${file.filename}`;
+
+    newsService.createNews({
       user: {
         googleId: user!.googleId,
       },
-      title: payload.title,
-      category: payload.category,
-      content: payload.content,
+      title,
+      category,
+      content,
+      imageUrl: fileUrl,
     });
 
-    return response.status(201).json({
-      message: "News added successfully",
-      news: newNews,
-    });
+    return response.status(201).end();
   } catch (error) {
-    console.error("Error in handleAddNews:", error);
+    console.error("Error in handleCreateNews:", error);
     return response.status(500).json({
       message: "Failed to add news",
       error: (error as Error).message,
@@ -83,7 +102,7 @@ export async function handleAddNews(request: Request, response: Response) {
 
 export async function handleDeleteNewsById(
   request: Request,
-  response: Response,
+  response: Response
 ) {
   const token = request.cookies.access_token;
   const newsId = request.params.id as string;
