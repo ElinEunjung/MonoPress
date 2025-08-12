@@ -1,4 +1,5 @@
 import type { Response, Request } from "express";
+import path from "path";
 import { JwtToken } from "../auth/googles/helpers/jwt-token.helper";
 import type { UserModel } from "../auth/models/types/user-model.type";
 import { newsService } from "./services/news.service";
@@ -126,13 +127,50 @@ export async function handleDeleteNewsById(
   request: Request,
   response: Response,
 ) {
-  const token = request.cookies.access_token;
-  const newsId = request.params.id as string;
+  try {
+    const token = request.cookies.access_token;
+    const newsId = request.params.id as string;
 
-  const { accessToken } = JwtToken.verifyAndDecrypt<UserModel>(token);
-  const user = await newsService.findUserByAccessToken(accessToken);
+    const { accessToken } = JwtToken.verifyAndDecrypt<UserModel>(token);
+    const user = await newsService.findUserByAccessToken(accessToken);
 
-  await newsService.deleteNewsById(newsId, user!.googleId);
+    // Get the news article before deleting it to get the image URL
+    const newsToDelete = await newsService.findNewsById(newsId, user!.googleId);
 
-  return response.status(204).end();
+    if (!newsToDelete) {
+      return response.status(404).json({
+        message: "Article not found",
+      });
+    }
+
+    // Delete the news article from the database
+    await newsService.deleteNewsById(newsId, user!.googleId);
+
+    // Delete the associated image file if it exists
+    if (newsToDelete.imageUrl) {
+      const { fileUtils } = await import("../../utils/file-utils");
+      const fileName = fileUtils.getFileNameFromUrl(newsToDelete.imageUrl);
+
+      if (fileName) {
+        const filePath = path.join(
+          __dirname,
+          "../../../public/uploads",
+          fileName,
+        );
+        try {
+          await fileUtils.deleteFile(filePath);
+        } catch (error) {
+          console.error("Error deleting image file:", error);
+        }
+      }
+    }
+
+    return response.status(204).end();
+  } catch (error) {
+    console.error("Error in handleDeleteNewsById:", error);
+    return response.status(500).json({
+      message: "Failed to delete news",
+      error: (error as Error).message,
+    });
+  }
 }

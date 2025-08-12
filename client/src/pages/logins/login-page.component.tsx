@@ -11,7 +11,7 @@ const LoginPage = () => {
     <AuthVerifySession>
       {() => (
         <BoxLayout className="bg-color-ghost">
-          <CenterLayout max="50em" intrinsic>
+          <CenterLayout max="50em" intrinsic center>
             <BoxLayout className="bg-color-snow">
               <h1>Log in</h1>
 
