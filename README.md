@@ -68,3 +68,4 @@
 ## 📚 Kilder
  - Gratis ikon: [(https://loading.io/)]
  - Inspirasjoner for prosjekt farge: [(https://colorkit.co/palette/d1d1d3-e1dbd6-e2e2e4-f9f6f2-fefefe/)]
+ - Layout: [(https://every-layout.dev/)]
