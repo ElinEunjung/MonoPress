@@ -30,6 +30,7 @@
      > Brukeren får meldingen som "Kategori, tittel eller tekst er påkrevd"
 - ✅ En redaksjonell bruker skal kunne redigere en artikkel de selv har publisert
 - ✅ En redaksjonell bruker skal kunne slette en bruker de selv har publisert
+     > (tremger forkaering)
 - ✅ Alle feil fra serves skal presenteres til bruker på en pen mate, med mulighet for brukeren til a prøve igjen
      > Eksempler på feilmelidnger er "Failed to retrieve news", "Failed to update news", "Failed to add news", "Article not found" og"Failed to delete news"
 
