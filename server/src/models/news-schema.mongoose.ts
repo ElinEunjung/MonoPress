@@ -38,8 +38,14 @@ const ReactionSchema = new Schema({
 });
 
 const ReactionsSchema = new Schema({
-  likes: [ReactionSchema],
-  dislikes: [ReactionSchema],
+  likes: {
+    type: [ReactionSchema],
+    default: [],
+  },
+  dislikes: {
+    type: [ReactionSchema],
+    default: [],
+  },
 });
 
 // Create the reply schema with self-reference for nested replies
@@ -136,16 +142,8 @@ const NEWS_MONGOOSE_SCHEMA = new Schema({
     required: false,
   },
   reaction: {
-    likes: {
-      type: Number,
-      default: 0,
-      required: false,
-    },
-    dislikes: {
-      type: Number,
-      default: 0,
-      required: false,
-    },
+    type: ReactionsSchema,
+    default: { likes: [], dislikes: [] },
   },
   comments: [CommentSchema],
 });
