@@ -23,4 +23,5 @@ export interface Comment {
     name: string;
     avatarUrl: string;
   };
+  replies: Comment[];
 }

@@ -2,6 +2,7 @@ import type { News } from "@/types/news.type";
 import { useOutletContext, useParams } from "react-router";
 import CenterLayout from "@/components/compositions/center-layouts/center-layout.component";
 import StackLayout from "@/components/compositions/stack-layouts/stack-layout.component";
+import { CommentsSection } from "@/components/comments/comments-section.component";
 
 import style from "./view-public-article-by-id.module.css";
 import { formatNorwegianDate } from "../../utils/date.util";
@@ -47,6 +48,8 @@ const ViewPublicArticleById = () => {
 
         <hr />
         <p style={{ whiteSpace: "pre-wrap" }}>{currentNewsItem.content}</p>
+
+        <CommentsSection articleId={currentNewsItem.id} />
       </StackLayout>
     </CenterLayout>
   );

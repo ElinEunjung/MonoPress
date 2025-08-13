@@ -80,8 +80,4 @@ export const newsService = {
       .find({ "user.googleId": googleId }, projectionNewsField)
       .sort({ createdAt: -1 });
   },
-
-  async findUserByAccessToken(accessToken: string) {
-    return await userGoogleSchemaModel.findOne({ accessToken });
-  },
 };

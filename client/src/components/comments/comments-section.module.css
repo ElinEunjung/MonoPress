@@ -1,0 +1,36 @@
+.commentsSection {
+  margin-top: 2rem;
+  padding-top: 2rem;
+  border-top: 1px solid #e1e1e1;
+}
+
+.newComment {
+  margin-bottom: 2rem;
+}
+
+.commentInput {
+  width: 100%;
+  min-height: 100px;
+  padding: 0.5rem;
+  margin-bottom: 1rem;
+  border: 1px solid #e1e1e1;
+  border-radius: 4px;
+}
+
+.submitButton {
+  padding: 0.5rem 1rem;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.submitButton:disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
+}
+
+.commentsList {
+  margin-top: 2rem;
+}

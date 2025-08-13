@@ -4,6 +4,7 @@ import { JwtToken } from "../auth/googles/helpers/jwt-token.helper";
 import type { UserModel } from "../auth/models/types/user-model.type";
 import { newsService } from "./services/news.service";
 import { userGoogleSchemaModel } from "../auth/googles/models/user-google-schema.model";
+import { userService } from "../../../services/user.service";
 
 export async function handleGetNewsByUser(
   request: Request,
@@ -13,7 +14,7 @@ export async function handleGetNewsByUser(
     const token = request.cookies.access_token;
 
     const { accessToken } = JwtToken.verifyAndDecrypt<UserModel>(token);
-    const user = await newsService.findUserByAccessToken(accessToken);
+    const user = await userService.findUserByAccessToken(accessToken);
     const userNews = await newsService.getUserNewsByGoogleId(user!.googleId);
 
     return response.status(200).json(userNews);
@@ -33,7 +34,7 @@ export async function handleEditNewsById(request: Request, response: Response) {
     const { title, category, content, imageUrl } = request.body;
 
     const { accessToken } = JwtToken.verifyAndDecrypt<UserModel>(token);
-    const user = await newsService.findUserByAccessToken(accessToken);
+    const user = await userService.findUserByAccessToken(accessToken);
     const userNews = await newsService.findNewsById(newsId, user!.googleId);
 
     let finalImageUrl = userNews!.imageUrl; // Default to existing image
@@ -132,7 +133,7 @@ export async function handleDeleteNewsById(
     const newsId = request.params.id as string;
 
     const { accessToken } = JwtToken.verifyAndDecrypt<UserModel>(token);
-    const user = await newsService.findUserByAccessToken(accessToken);
+    const user = await userService.findUserByAccessToken(accessToken);
 
     // Get the news article before deleting it to get the image URL
     const newsToDelete = await newsService.findNewsById(newsId, user!.googleId);

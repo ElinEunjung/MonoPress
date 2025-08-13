@@ -1,0 +1,58 @@
+.comment {
+  border: 1px solid #e1e1e1;
+  padding: 1rem;
+  border-radius: 4px;
+  margin-bottom: 1rem;
+}
+
+.content {
+  margin-bottom: 0.5rem;
+}
+
+.actions {
+  font-size: 0.9rem;
+}
+
+.reactions button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0.25rem 0.5rem;
+  margin-right: 0.5rem;
+}
+
+.replyForm {
+  margin-top: 1rem;
+}
+
+.replyForm textarea {
+  width: 100%;
+  min-height: 80px;
+  margin-bottom: 0.5rem;
+  padding: 0.5rem;
+  border: 1px solid #e1e1e1;
+  border-radius: 4px;
+}
+
+.replyForm button {
+  padding: 0.5rem 1rem;
+  margin-right: 0.5rem;
+}
+
+.replies {
+  margin-top: 1rem;
+}
+
+.deleteButton {
+  margin-left: 0.5rem;
+  padding: 0.25rem 0.5rem;
+  background-color: #ff4444;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.deleteButton:hover {
+  background-color: #cc0000;
+}
