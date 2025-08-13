@@ -1,8 +1,8 @@
 import { Request, Response } from "express";
 import { newsSchemaModel } from "../models/news-schema.mongoose";
-import { JwtToken } from "../routes/auth/googles/helpers/jwt-token.helper";
+import { JwtTokenHelper } from "../routes/auth/googles/helpers/jwt-token.helper";
 import { UserModel } from "../routes/auth/models/types/user-model.type";
-import { userService } from "../../services/user.service";
+import { userService } from "../services/user.service";
 import { Types, Document } from "mongoose";
 
 interface ReactionDocument extends Document {
@@ -78,7 +78,7 @@ export const getComments = async (req: Request, res: Response) => {
 export const addComment = async (req: Request, res: Response) => {
   try {
     const token = req.cookies.access_token;
-    const { accessToken } = JwtToken.verifyAndDecrypt<UserModel>(token);
+    const { accessToken } = JwtTokenHelper.verifyAndDecrypt<UserModel>(token);
     const user = await userService.findUserByAccessToken(accessToken);
     const googleId = user!.googleId;
     const { articleId } = req.params;
@@ -139,7 +139,7 @@ export const addReply = async (req: Request, res: Response) => {
       return res.status(401).json({ message: "Unauthorized - no token" });
     }
 
-    const { accessToken } = JwtToken.verifyAndDecrypt<UserModel>(token);
+    const { accessToken } = JwtTokenHelper.verifyAndDecrypt<UserModel>(token);
     const user = await userService.findUserByAccessToken(accessToken);
     if (!user || !user.googleId) {
       console.log("No user found");
@@ -255,7 +255,7 @@ export const toggleReaction = async (req: Request, res: Response) => {
     console.log("Request body:", req.body);
 
     const token = req.cookies.access_token;
-    const { accessToken } = JwtToken.verifyAndDecrypt<UserModel>(token);
+    const { accessToken } = JwtTokenHelper.verifyAndDecrypt<UserModel>(token);
     const user = await userService.findUserByAccessToken(accessToken);
     const googleId = user!.googleId;
     const { articleId, commentId } = req.params;
@@ -375,7 +375,7 @@ export const deleteComment = async (req: Request, res: Response) => {
     console.log("Request params:", req.params);
 
     const token = req.cookies.access_token;
-    const { accessToken } = JwtToken.verifyAndDecrypt<UserModel>(token);
+    const { accessToken } = JwtTokenHelper.verifyAndDecrypt<UserModel>(token);
     const user = await userService.findUserByAccessToken(accessToken);
     const googleId = user!.googleId;
     const { articleId, commentId } = req.params;
@@ -480,7 +480,7 @@ export const editComment = async (req: Request, res: Response) => {
     console.log("Request body:", req.body);
 
     const token = req.cookies.access_token;
-    const { accessToken } = JwtToken.verifyAndDecrypt<UserModel>(token);
+    const { accessToken } = JwtTokenHelper.verifyAndDecrypt<UserModel>(token);
     const user = await userService.findUserByAccessToken(accessToken);
     const googleId = user!.googleId;
     const { articleId, commentId } = req.params;

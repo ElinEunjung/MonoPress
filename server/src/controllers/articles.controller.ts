@@ -1,8 +1,8 @@
 import { Request, Response } from "express";
 import { newsSchemaModel } from "../models/news-schema.mongoose";
-import { JwtToken } from "../routes/auth/googles/helpers/jwt-token.helper";
+import { JwtTokenHelper } from "../routes/auth/googles/helpers/jwt-token.helper";
 import { UserModel } from "../routes/auth/models/types/user-model.type";
-import { userService } from "../../services/user.service";
+import { userService } from "../services/user.service";
 import { Types, Document } from "mongoose";
 
 interface ReactionDocument extends Document {
@@ -16,7 +16,7 @@ export const toggleArticleReaction = async (req: Request, res: Response) => {
     console.log("Request body:", req.body);
 
     const token = req.cookies.access_token;
-    const { accessToken } = JwtToken.verifyAndDecrypt<UserModel>(token);
+    const { accessToken } = JwtTokenHelper.verifyAndDecrypt<UserModel>(token);
     const user = await userService.findUserByAccessToken(accessToken);
     const googleId = user!.googleId;
     const { articleId } = req.params;

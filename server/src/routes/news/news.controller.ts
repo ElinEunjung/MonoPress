@@ -1,10 +1,10 @@
 import type { Response, Request } from "express";
 import path from "path";
-import { JwtToken } from "../auth/googles/helpers/jwt-token.helper";
+import { JwtTokenHelper } from "../auth/googles/helpers/jwt-token.helper";
 import type { UserModel } from "../auth/models/types/user-model.type";
 import { newsService } from "./services/news.service";
-import { userGoogleSchemaModel } from "../auth/googles/models/user-google-schema.model";
-import { userService } from "../../../services/user.service";
+import { userSchemaModel } from "../../models/users/user.mongoose";
+import { userService } from "../../services/user.service";
 
 export async function handleGetNewsByUser(
   request: Request,
@@ -13,7 +13,7 @@ export async function handleGetNewsByUser(
   try {
     const token = request.cookies.access_token;
 
-    const { accessToken } = JwtToken.verifyAndDecrypt<UserModel>(token);
+    const { accessToken } = JwtTokenHelper.verifyAndDecrypt<UserModel>(token);
     const user = await userService.findUserByAccessToken(accessToken);
     const userNews = await newsService.getUserNewsByGoogleId(user!.googleId);
 
@@ -33,7 +33,7 @@ export async function handleEditNewsById(request: Request, response: Response) {
     const newsId = request.params.id as string;
     const { title, category, content, imageUrl } = request.body;
 
-    const { accessToken } = JwtToken.verifyAndDecrypt<UserModel>(token);
+    const { accessToken } = JwtTokenHelper.verifyAndDecrypt<UserModel>(token);
     const user = await userService.findUserByAccessToken(accessToken);
     const userNews = await newsService.findNewsById(newsId, user!.googleId);
 
@@ -92,8 +92,8 @@ export async function handleCreateNews(request: Request, response: Response) {
 
     const token = request.cookies.access_token;
 
-    const { accessToken } = JwtToken.verifyAndDecrypt<UserModel>(token);
-    const user = await userGoogleSchemaModel.findOne({ accessToken });
+    const { accessToken } = JwtTokenHelper.verifyAndDecrypt<UserModel>(token);
+    const user = await userSchemaModel.findOne({ accessToken });
 
     let rootUri = "http://localhost:3000";
 
@@ -132,7 +132,7 @@ export async function handleDeleteNewsById(
     const token = request.cookies.access_token;
     const newsId = request.params.id as string;
 
-    const { accessToken } = JwtToken.verifyAndDecrypt<UserModel>(token);
+    const { accessToken } = JwtTokenHelper.verifyAndDecrypt<UserModel>(token);
     const user = await userService.findUserByAccessToken(accessToken);
 
     // Get the news article before deleting it to get the image URL
@@ -149,7 +149,7 @@ export async function handleDeleteNewsById(
 
     // Delete the associated image file if it exists
     if (newsToDelete.imageUrl) {
-      const { fileUtils } = await import("../../utils/file-utils");
+      const { fileUtils } = await import("../../utils/file.utils");
       const fileName = fileUtils.getFileNameFromUrl(newsToDelete.imageUrl);
 
       if (fileName) {

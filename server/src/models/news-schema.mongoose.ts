@@ -21,17 +21,6 @@ interface IReply extends Document {
   replies: IReply[];
 }
 
-interface IComment extends Document {
-  user: {
-    googleId: string;
-  };
-  content: string;
-  createdAt: Date;
-  updatedAt: Date | null;
-  reactions: IReactions;
-  replies: IReply[];
-}
-
 // Create schemas for nested structures
 const ReactionSchema = new Schema({
   userId: { type: String, required: true },

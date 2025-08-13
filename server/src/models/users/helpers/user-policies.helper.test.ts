@@ -1,7 +1,7 @@
 import { it, expect, describe } from "vitest";
 import { userPolicy } from "./user-policies.helper";
-import { USER_ROLE } from "../../constants/user-role.constant";
-import { USER_POLICY } from "../../constants/user-policy.constant";
+import { USER_ROLE } from "../../../routes/auth/googles/constants/user-role.constant";
+import { USER_POLICY } from "../../../routes/auth/googles/constants/user-policy.constant";
 
 describe("userPolicy", () => {
   describe("isRoleValid()", () => {

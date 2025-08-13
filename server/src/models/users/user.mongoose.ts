@@ -1,9 +1,9 @@
 import mongoose from "mongoose";
-import { USER_POLICY } from "../constants/user-policy.constant";
-import { USER_ROLE } from "../constants/user-role.constant";
+import { USER_POLICY } from "../../routes/auth/googles/constants/user-policy.constant";
+import { USER_ROLE } from "../../routes/auth/googles/constants/user-role.constant";
 import { userPolicy } from "./helpers/user-policies.helper";
 
-const USER_GOOGLE_SCHEMA = new mongoose.Schema({
+const USER_SCHEMA = new mongoose.Schema({
   accessToken: { type: String, required: true },
   googleId: { type: String, required: true },
   email: { type: String, required: true },
@@ -39,6 +39,4 @@ const USER_GOOGLE_SCHEMA = new mongoose.Schema({
   },
 });
 
-const userGoogleSchemaModel = mongoose.model("user", USER_GOOGLE_SCHEMA);
-
-export { userGoogleSchemaModel };
+export const userSchemaModel = mongoose.model("user", USER_SCHEMA);

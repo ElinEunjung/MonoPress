@@ -1,7 +1,7 @@
 import type { Request, Response } from "express";
 import type { JwtPayload } from "jsonwebtoken";
 
-import { JwtToken } from "../googles/helpers/jwt-token.helper";
+import { JwtTokenHelper } from "../googles/helpers/jwt-token.helper";
 import type { UserModel } from "../models/types/user-model.type";
 
 export async function handleJwtCookieSession(req: Request, res: Response) {
@@ -14,7 +14,7 @@ export async function handleJwtCookieSession(req: Request, res: Response) {
   }
 
   try {
-    const decodedToken = JwtToken.verifyAndDecrypt(token);
+    const decodedToken = JwtTokenHelper.verifyAndDecrypt(token);
 
     type DecodedUserModelToken = UserModel & Pick<JwtPayload, "iat" | "exp">;
 

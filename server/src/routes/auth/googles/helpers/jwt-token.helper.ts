@@ -2,11 +2,11 @@ import jwt from "jsonwebtoken";
 import type { SignOptions } from "jsonwebtoken";
 import { JWT_SECRET } from "../../../../constants/auth/global-jwt-token";
 
-type JwtTokenPayload = Parameters<(typeof jwt)["sign"]>[0];
+type JwtTokenHelperPayload = Parameters<(typeof jwt)["sign"]>[0];
 
-export const JwtToken = {
+export const JwtTokenHelper = {
   create(
-    payload: JwtTokenPayload,
+    payload: JwtTokenHelperPayload,
     options: SignOptions = {
       expiresIn: "3h",
     },
