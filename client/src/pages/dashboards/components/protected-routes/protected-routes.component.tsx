@@ -23,7 +23,7 @@ const ProtectedRoutes = () => {
           );
         }
 
-        if (isValidSession && user!.resources.role === "editor") {
+        if (isValidSession && user && user.resources.role === "editor") {
           renderComponent = <EditorDashboardLayout user={user} />;
         }
 
@@ -39,7 +39,7 @@ const ProtectedRoutes = () => {
           );
         }
 
-        if (isValidSession && user!.resources.role === "none-editor") {
+        if (isValidSession && user && user.resources.role === "none-editor") {
           renderComponent = (
             <CenterLayout max="50em" intrinsic textCenter>
               <StackLayout gap="0">

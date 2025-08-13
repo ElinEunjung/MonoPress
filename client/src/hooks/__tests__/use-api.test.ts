@@ -3,7 +3,7 @@ import { describe, it, expect, vi, beforeEach } from "vitest";
 import { useApi } from "../use-api";
 import { api } from "@/api/api";
 import type { Mock } from "vitest";
-import { AxiosError } from "axios";
+import { AxiosError, type AxiosRequestHeaders } from "axios";
 
 // Mock the api module
 vi.mock("@/api/api", () => ({
@@ -21,14 +21,14 @@ describe("useApi", () => {
   const mockError = new AxiosError(
     "Request failed with status code 400",
     "ERR_BAD_REQUEST",
-    { headers: {}, method: "get", url: "/test" },
+    { headers: {} as AxiosRequestHeaders, method: "get", url: "/test" },
     {},
     {
       status: 400,
       statusText: "Bad Request",
-      headers: {},
+      headers: {} as AxiosRequestHeaders,
       data: { message: "Test error" },
-      config: {},
+      config: { headers: {} as AxiosRequestHeaders },
     },
   );
 
