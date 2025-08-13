@@ -8,7 +8,7 @@ import { userService } from "../../services/user.service";
 
 export async function handleGetNewsByUser(
   request: Request,
-  response: Response,
+  response: Response
 ) {
   try {
     const token = request.cookies.access_token;
@@ -41,12 +41,7 @@ export async function handleEditNewsById(request: Request, response: Response) {
 
     // If there's a new file uploaded, process it
     if (request.file) {
-      let rootUri = "http://localhost:3000";
-      const isProductionEnvironment = process.env.NODE_ENV === "production";
-      if (isProductionEnvironment) {
-        rootUri = "https://mono-press-5a039da642a5.herokuapp.com/";
-      }
-      finalImageUrl = `${rootUri}/uploads/${request.file.filename}`;
+      finalImageUrl = `https://mono-press-5a039da642a5.herokuapp.com/uploads/${request.file.filename}`;
     } else if (imageUrl) {
       // If no new file but imageUrl provided in body, use that
       finalImageUrl = imageUrl;
@@ -95,14 +90,7 @@ export async function handleCreateNews(request: Request, response: Response) {
     const { accessToken } = JwtTokenHelper.verifyAndDecrypt<UserModel>(token);
     const user = await userSchemaModel.findOne({ accessToken });
 
-    let rootUri = "http://localhost:3000";
-
-    const isProductionEnvironment = process.env.NODE_ENV === "production";
-    if (isProductionEnvironment) {
-      rootUri = "https://mono-press-5a039da642a5.herokuapp.com/";
-    }
-
-    const fileUrl = `${rootUri}/uploads/${request.file.filename}`;
+    const fileUrl = `https://mono-press-5a039da642a5.herokuapp.com/uploads/${request.file.filename}`;
 
     await newsService.createNews({
       user: {
@@ -126,7 +114,7 @@ export async function handleCreateNews(request: Request, response: Response) {
 
 export async function handleDeleteNewsById(
   request: Request,
-  response: Response,
+  response: Response
 ) {
   try {
     const token = request.cookies.access_token;
@@ -156,7 +144,7 @@ export async function handleDeleteNewsById(
         const filePath = path.join(
           __dirname,
           "../../../public/uploads",
-          fileName,
+          fileName
         );
         try {
           await fileUtils.deleteFile(filePath);
