@@ -12,7 +12,7 @@
 
 ## 🔍 Funksjonelle krav (oppfylt)
 
-- ✅ Anonyme brukere skal se nyhetsaker når de kommer til nettsiden (legg inn noen nyhetssaker for a demonstrere)
+- ✅ Anonyme brukere skal se nyhetsaker når de kommer til nettsiden (Det er lagt inn noen nyhetssaker for a demonstrere)
 - ✅ Brukere kan logge seg inn. Du kan velge brukere skal kunne registrere seg med brukernavn og passord (anbefales ikke) eller om brukere skal logge inn med Google eller Entra ID
   > Generelle brukere (`non-editor`) kan logge inn med Google. Registrerte redaktører (`editor`) kan logge inn med brukernavn og passord. Denne løsningen er for å vise protected routes, som f.eks (`/dashboard`) for redaktør. Når generelle brukere trykker "dashboard" (`/dashboard`), får de se "Uauthorisert tilgang" melding
 - ✅ En bruker som er logget inn kan se pa sin profilside
