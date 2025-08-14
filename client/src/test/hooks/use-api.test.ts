@@ -1,6 +1,6 @@
 import { renderHook, act } from "@testing-library/react";
 import { describe, it, expect, vi, beforeEach } from "vitest";
-import { useApi } from "../use-api";
+import { useApi } from "../../hooks/use-api";
 import { api } from "@/api/api";
 import type { Mock } from "vitest";
 import { AxiosError, type AxiosRequestHeaders } from "axios";
@@ -29,7 +29,7 @@ describe("useApi", () => {
       headers: {} as AxiosRequestHeaders,
       data: { message: "Test error" },
       config: { headers: {} as AxiosRequestHeaders },
-    },
+    }
   );
 
   beforeEach(() => {
@@ -157,7 +157,7 @@ describe("useApi", () => {
       (api.delete as Mock).mockResolvedValueOnce({ data: mockData });
 
       const { result } = renderHook(() =>
-        useApi(testUri, { method: "delete" }),
+        useApi(testUri, { method: "delete" })
       );
 
       let response;
@@ -183,7 +183,7 @@ describe("useApi", () => {
         () =>
           new Promise((resolve) => {
             setTimeout(() => resolve({ data: mockData }), 100);
-          }),
+          })
       );
 
       const { result } = renderHook(() => useApi(testUri, { method: "post" }));
