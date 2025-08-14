@@ -30,7 +30,7 @@
 
 - [GitHub-repo](https://github.com/kristiania-pg6301-2024/pg6301-2025-konte-ElinEunjung)
 - [Heroku-deployment](https://mono-press-5a039da642a5.herokuapp.com/)
-- [Test-Rapport][(add-link-here)]
+- [Test-Rapport](https://github.com/ElinEunjung/MonoPress/actions)
   
    > ⚠️ Problemer! <br>
    > Jeg opplevde problemer med å koble classroom-repoet til Heroku-serveren via Github Action[A](docs/github-action.png), derfor har laget et nytt repo [B](docs/heroku.png) for tilkobling, og aktiverte automatisk deploy i [C,D](docs/heroku.png). I Heroku-serverens build-logg [E](docs/heroku-2.png), kan vi se både build og deploy er gjennomført [F](docs/heroku-3.png), og endringene blir publisert til serveren.
@@ -245,4 +245,6 @@ Det er knyttet til at i frontend skal kunne bruke disse verdiene for å validere
  - **Farge inspirasjon**: https://colorkit.co/palette/d1d1d3-e1dbd6-e2e2e4-f9f6f2-fefefe/
  - **Frontend Layout inspirasjon**: https://every-layout.dev/
  - **Prosjekt arkitektur**:https://theroadtoenterprise.com/books/react-the-road-to-enterprise/typescript
-	 - Chapter 3. Scalable and Maintainable Project Architecture    
+	 - Chapter 3. Scalable and Maintainable Project Architecture
+ - Gemini modell 2.5 Pro
+ - VCS Copilot modell Claude Sonnet 4
