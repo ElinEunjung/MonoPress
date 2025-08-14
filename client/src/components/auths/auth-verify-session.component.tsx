@@ -1,5 +1,5 @@
 import { userInfoContext } from "@/contexts/user-info-providers/user-info-context";
-import type { UserInfo } from "@/contexts/user-info-providers/user-info.type";
+import type { UserInfo } from "@/types/user-info.type";
 import { useApi } from "@/hooks/use-api";
 import type { ReactNode } from "react";
 import { useContext, useEffect, useState } from "react";

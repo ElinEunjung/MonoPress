@@ -21,18 +21,3 @@ export interface UserModel {
     };
   };
 }
-
-// resources: {
-//         role: USER_ROLE.NoneEditor,
-//         policy: {
-//           article: {
-//             reaction: [USER_POLICY.READ, USER_POLICY.UPDATE],
-//             comments: [
-//               USER_POLICY.READ,
-//               USER_POLICY.WRITE,
-//               USER_POLICY.DELETE,
-//               USER_POLICY.UPDATE,
-//             ],
-//           },
-//         },
-//       },

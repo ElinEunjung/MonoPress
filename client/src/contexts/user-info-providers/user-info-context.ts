@@ -1,5 +1,5 @@
 import { createContext } from "react";
-import type { UserInfo } from "./user-info.type";
+import type { UserInfo } from "../../types/user-info.type";
 import { INITIAL_USER_INFO_MODEL } from "./models/constants/initial-user-info-model.constant";
 
 export interface UserInfoContext {

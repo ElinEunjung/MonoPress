@@ -5,7 +5,7 @@ import { Outlet } from "react-router";
 import WrapperLayout from "@/components/compositions/wrapper-layouts/wrapper-layout.component";
 import BoxLayout from "@/components/compositions/box-layouts/box-layout.component";
 import StackLayout from "@/components/compositions/stack-layouts/stack-layout.component";
-import type { UserInfo } from "@/contexts/user-info-providers/user-info.type";
+import type { UserInfo } from "@/types/user-info.type";
 
 import { useLocation } from "react-router";
 import type { ReactElement } from "react";

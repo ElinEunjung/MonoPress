@@ -8,9 +8,19 @@ import UnauthorizedAnonymousUserMessage from "./components/unauthorized-anonymou
 import UnauthorizedNoneEditorUserMessage from "./components/unauthorized-none-editor-user-message.component";
 
 import EditorDashboardLayout from "../layouts/editor-dashboard-layout.component";
+import type { UserInfo } from "@/types/user-info.type";
 
 const ProtectedRoutes = () => {
   let renderComponent: ReactElement | null = null;
+  const localStorageMockUser = localStorage.getItem("mock-user");
+
+  const mockUser = localStorageMockUser
+    ? (JSON.parse(localStorageMockUser) as UserInfo)
+    : null;
+
+  if (mockUser?.email === "editor@monopress.com") {
+    return <EditorDashboardLayout user={mockUser} />;
+  }
 
   return (
     <AuthVerifySession>

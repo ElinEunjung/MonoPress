@@ -4,13 +4,20 @@ import { Link } from "react-router";
 import { baseNavLinks } from "../constants/base-nav-links.constant";
 import ClusterLayout from "@/components/compositions/cluster-layouts/cluster-layout.component";
 import BoxLayout from "@/components/compositions/box-layouts/box-layout.component";
+import type { UserInfo } from "@/types/user-info.type";
 
 const PublicLayoutHeader = () => {
   const userInfoCtx = useContext(userInfoContext);
 
   let navLinks = baseNavLinks;
 
-  if (userInfoCtx.userInfo.name) {
+  const localStorageMockUser = localStorage.getItem("mock-user");
+
+  const mockUser = localStorageMockUser
+    ? (JSON.parse(localStorageMockUser) as UserInfo)
+    : null;
+
+  if (userInfoCtx.userInfo.name || mockUser?.email === "editor@monopress.com") {
     navLinks = navLinks.concat([
       {
         id: 2,

@@ -11,10 +11,11 @@ const api = express.Router();
 
 api.use(publicNewsRouter);
 api.use(authRouter);
-api.use(validateCookieSession);
+
+api.use(validateCookieSession); // Middleware for validating cookie session
+
 api.use(commentsRouter);
 api.use(articlesRouter);
-
 api.use(newsRouter);
 
 export { api };

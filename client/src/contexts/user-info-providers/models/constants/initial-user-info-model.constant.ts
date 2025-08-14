@@ -1,4 +1,4 @@
-import type { UserInfo } from "../../user-info.type";
+import type { UserInfo } from "../../../../types/user-info.type";
 
 export const INITIAL_USER_INFO_MODEL: UserInfo = {
   email: "",
