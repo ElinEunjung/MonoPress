@@ -102,13 +102,7 @@ export const Comment = ({
     );
     if (confirmed) {
       try {
-        console.log("Attempting to delete comment:", comment._id);
-        console.log(
-          "Full URL:",
-          `/articles/${articleId}/comments/${comment._id}`
-        );
-        const result = await handleDeleteComment();
-        console.log("Delete response:", result);
+        await handleDeleteComment();
         onCommentUpdate();
       } catch (error) {
         console.error("Error deleting comment:", error);

@@ -1,0 +1,33 @@
+.articleReactions {
+  margin: 2em 0;
+  padding: 1em;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  background-color: #f9f9f9;
+}
+
+.articleReactions h3 {
+  margin-bottom: 1em;
+  font-size: 1.2rem;
+  color: #333;
+}
+
+.reactionButton {
+  padding: 0.75em 1.5em;
+  font-size: 1rem;
+  border: 2px solid #ddd;
+  border-radius: 6px;
+  background-color: white;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.reactionButton:hover {
+  background-color: #f0f0f0;
+  border-color: #bbb;
+  transform: translateY(-1px);
+}
+
+.reactionButton:active {
+  transform: translateY(0);
+}

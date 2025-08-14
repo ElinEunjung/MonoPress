@@ -1,63 +1,20 @@
-import type { News } from "@/types/news.type";
-import { useOutletContext, useParams } from "react-router";
-import { useState, useEffect } from "react";
 import CenterLayout from "@/components/compositions/center-layouts/center-layout.component";
 import StackLayout from "@/components/compositions/stack-layouts/stack-layout.component";
-import { CommentsSection } from "@/components/comments/comments-section.component";
-import { useApi } from "@/hooks/use-api";
+import type { News } from "@/types/news.type";
+import { useOutletContext, useParams } from "react-router";
+import { CommentsSection } from "./components/comments-sections/comments-section.component";
 
-import style from "./view-public-article-by-id.module.css";
-import { formatNorwegianDate } from "../../utils/date.util";
 import ClusterLayout from "@/components/compositions/cluster-layouts/cluster-layout.component";
+import { formatNorwegianDate } from "../../utils/date.util";
+import style from "./view-public-article-by-id.module.css";
+
+import Reaction from "./components/article-reactions/article-reaction.component";
 
 const ViewPublicArticleById = () => {
   const params = useParams<{ id: string }>();
   const publicNews = useOutletContext<News[]>();
-  const [reactions, setReactions] = useState({ likes: 0, dislikes: 0 });
 
   const currentNewsItem = publicNews?.find((news) => news.id === params.id);
-
-  const { mutate: handleToggleCommentReaction } = useApi<
-    { reactions: { likes: number; dislikes: number } },
-    { reactionType: "like" | "dislike" }
-  >(`/articles/${params.id}/react`, {
-    method: "post",
-  });
-
-  const { mutate: getReactions } = useApi<{
-    reactions: { likes: number; dislikes: number };
-  }>(`/articles/${params.id}/reactions`, {
-    method: "get",
-  });
-
-  // Load initial reactions when component mounts
-  useEffect(() => {
-    const loadReactions = async () => {
-      try {
-        const response = await getReactions();
-        if (response?.reactions) {
-          setReactions(response.reactions);
-        }
-      } catch (error) {
-        console.error("Error loading reactions:", error);
-      }
-    };
-
-    if (currentNewsItem?.id) {
-      loadReactions();
-    }
-  }, [currentNewsItem?.id, getReactions]);
-
-  const handleReaction = async (reactionType: "like" | "dislike") => {
-    try {
-      const response = await handleToggleCommentReaction({ reactionType });
-      if (response?.reactions) {
-        setReactions(response.reactions);
-      }
-    } catch (error) {
-      console.error("Error toggling reaction:", error);
-    }
-  };
 
   if (!currentNewsItem) {
     return <h2>Ingen Nyheter</h2>;
@@ -94,24 +51,7 @@ const ViewPublicArticleById = () => {
         <hr />
         <p style={{ whiteSpace: "pre-wrap" }}>{currentNewsItem.content}</p>
 
-        {/* Article Reactions */}
-        <div className={style.articleReactions}>
-          <h3>What do you think about this article?</h3>
-          <ClusterLayout gap="1em">
-            <button
-              onClick={() => handleReaction("like")}
-              className={style.reactionButton}
-            >
-              👍 Like ({reactions.likes})
-            </button>
-            <button
-              onClick={() => handleReaction("dislike")}
-              className={style.reactionButton}
-            >
-              👎 Dislike ({reactions.dislikes})
-            </button>
-          </ClusterLayout>
-        </div>
+        <Reaction currentNewsItemId={currentNewsItem.id} />
 
         <hr />
         <CommentsSection articleId={currentNewsItem.id} />

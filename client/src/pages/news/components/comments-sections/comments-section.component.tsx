@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useApi } from "@/hooks/use-api";
-import { Comment } from "@/components/comments/comment.component";
+import { Comment } from "@/pages/news/components/comments/comment.component";
 import StackLayout from "@/components/compositions/stack-layouts/stack-layout.component";
 import style from "./comments-section.module.css";
 
