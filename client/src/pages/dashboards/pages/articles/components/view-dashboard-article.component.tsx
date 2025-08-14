@@ -6,7 +6,7 @@ import { useState, useEffect } from "react";
 import StackLayout from "@/components/compositions/stack-layouts/stack-layout.component";
 
 interface ViewDashboardArticleProps {
-  newsData: News[] | undefined;
+  newsData: News[];
 }
 
 const ViewDashboardArticle = ({ newsData }: ViewDashboardArticleProps) => {

@@ -15,7 +15,7 @@ const ArticlePage = () => {
       return <LoadingSpinner />;
     }
 
-    return <ViewDashboardArticle newsData={newsData} />;
+    return <ViewDashboardArticle newsData={newsData!} />;
   }
 
   return (
