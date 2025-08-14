@@ -8,13 +8,21 @@ import ClusterLayout from "@/components/compositions/cluster-layouts/cluster-lay
 import { formatNorwegianDate } from "../../utils/date.util";
 import style from "./view-public-article-by-id.module.css";
 
-import Reaction from "./components/article-reactions/article-reaction.component";
+import ArticleReaction from "./components/article-reactions/article-reaction.component";
+import type { UserInfo } from "@/types/user-info.type";
+import BoxLayout from "@/components/compositions/box-layouts/box-layout.component";
 
 const ViewPublicArticleById = () => {
   const params = useParams<{ id: string }>();
-  const publicNews = useOutletContext<News[]>();
 
-  const currentNewsItem = publicNews?.find((news) => news.id === params.id);
+  const outletCtx = useOutletContext<{
+    publicNewsData: News[];
+    user: UserInfo | null;
+  }>();
+
+  const currentNewsItem = outletCtx.publicNewsData?.find((news) => {
+    return news.id === params.id;
+  });
 
   if (!currentNewsItem) {
     return <h2>Ingen Nyheter</h2>;
@@ -48,13 +56,23 @@ const ViewPublicArticleById = () => {
           {currentNewsItem.category}
         </p>
 
+        <ArticleReaction currentNewsItemId={currentNewsItem.id} />
+
         <hr />
         <p style={{ whiteSpace: "pre-wrap" }}>{currentNewsItem.content}</p>
 
-        <Reaction currentNewsItemId={currentNewsItem.id} />
+        {!outletCtx.user && (
+          <BoxLayout className="bg-color-oyster">
+            <p>❌Du må være innlogget for å kunne kommentere.</p>
+          </BoxLayout>
+        )}
 
-        <hr />
-        <CommentsSection articleId={currentNewsItem.id} />
+        {outletCtx.user && (
+          <>
+            <hr />
+            <CommentsSection articleId={currentNewsItem.id} />
+          </>
+        )}
       </StackLayout>
     </CenterLayout>
   );

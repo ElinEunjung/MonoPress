@@ -25,7 +25,7 @@ const MainLayout = () => {
     <WrapperLayout is="main">
       <UserInfoProvider>
         <AuthVerifySession>
-          {({ isValidSession }) => (
+          {({ isValidSession, user }) => (
             <>
               <BoxLayout paddingBlock="0.5em">
                 <ClusterLayout gap="0.5em" align="center">
@@ -43,7 +43,7 @@ const MainLayout = () => {
               {location.pathname === "/" && (
                 <CardArticle publicNews={publicNewsData!} />
               )}
-              <Outlet context={publicNewsData} />
+              <Outlet context={{ publicNewsData, user }} />
             </>
           )}
         </AuthVerifySession>
