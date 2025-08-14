@@ -1,13 +1,13 @@
 import express from "express";
 
-import { googleAuthRouter } from "./googles/google-auth.router";
-import { jwtCookieSessionRouter } from "./jwt-cookie-sessions/jwt-cookie-session.router";
-import { mongoLoginRouter } from "./mongo-login/mongo-login.router";
+import { authGoogleRouter } from "./auth-googles/auth-google.router";
+import { authJwtCookieSessionRouter } from "./auth-jwt-cookie-sessions/auth-jwt-cookie-session.router";
+import { authFakeUserRouter } from "./auth-fake-users/auth-fake-user.router";
 
 const authRouter = express.Router();
 
-authRouter.use(mongoLoginRouter);
-authRouter.use(googleAuthRouter);
-authRouter.use(jwtCookieSessionRouter);
+authRouter.use(authFakeUserRouter);
+authRouter.use(authGoogleRouter);
+authRouter.use(authJwtCookieSessionRouter);
 
 export { authRouter };

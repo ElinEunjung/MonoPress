@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
 import { newsSchemaModel } from "../models/news-schema.mongoose";
-import { JwtTokenHelper } from "../routes/auth/googles/helpers/jwt-token.helper";
+import { JwtTokenHelper } from "../routes/auth/auth-googles/helpers/jwt-token.helper";
 import { UserModel } from "../routes/auth/models/types/user-model.type";
 import { userService } from "../services/user.service";
 import { Types, Document } from "mongoose";
@@ -11,10 +11,6 @@ interface ReactionDocument extends Document {
 
 export const toggleArticleReaction = async (req: Request, res: Response) => {
   try {
-    console.log("=== TOGGLE ARTICLE REACTION START ===");
-    console.log("Request params:", req.params);
-    console.log("Request body:", req.body);
-
     const token = req.cookies.access_token;
     const { accessToken } = JwtTokenHelper.verifyAndDecrypt<UserModel>(token);
     const user = await userService.findUserByAccessToken(accessToken);
@@ -38,7 +34,7 @@ export const toggleArticleReaction = async (req: Request, res: Response) => {
 
     console.log("Looking for article:", articleId);
     const article = await newsSchemaModel.findById(
-      new Types.ObjectId(articleId),
+      new Types.ObjectId(articleId)
     );
 
     if (!article) {
@@ -78,7 +74,7 @@ export const toggleArticleReaction = async (req: Request, res: Response) => {
 
     // Remove from opposite reaction if exists
     const oppositeIndex = oppositeArray.findIndex(
-      (r: ReactionDocument) => r.userId === googleId,
+      (r: ReactionDocument) => r.userId === googleId
     );
     if (oppositeIndex !== -1) {
       oppositeArray.splice(oppositeIndex, 1);
@@ -87,7 +83,7 @@ export const toggleArticleReaction = async (req: Request, res: Response) => {
 
     // Toggle current reaction
     const existingIndex = reactionArray.findIndex(
-      (r: ReactionDocument) => r.userId === googleId,
+      (r: ReactionDocument) => r.userId === googleId
     );
     if (existingIndex !== -1) {
       reactionArray.splice(existingIndex, 1);
@@ -126,7 +122,7 @@ export const getArticleReactions = async (req: Request, res: Response) => {
     }
 
     const article = await newsSchemaModel.findById(
-      new Types.ObjectId(articleId),
+      new Types.ObjectId(articleId)
     );
 
     if (!article) {

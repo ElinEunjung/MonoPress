@@ -25,7 +25,7 @@ const INITIAL_USER_PAYLOAD = {
 };
 
 export function createJwtUserPayloadFactory(
-  payload: UserPayload = INITIAL_USER_PAYLOAD,
+  payload: UserPayload = INITIAL_USER_PAYLOAD
 ) {
   return {
     accessToken: payload.accessToken,

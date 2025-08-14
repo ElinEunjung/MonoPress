@@ -1,6 +1,6 @@
 import { userInfoContext } from "@/contexts/user-info-providers/user-info-context";
-import type { UserInfo } from "@/types/user-info.type";
 import { useApi } from "@/hooks/use-api";
+import type { UserInfo } from "@/types/user-info.type";
 import type { ReactNode } from "react";
 import { useContext, useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router";
@@ -12,7 +12,6 @@ interface AuthVerifySessionProps {
   }) => ReactNode;
 }
 
-// TODO: Handle it more elegantly to only do use useAPI if isValidSession is true, otherwise, don't to API call to the backend
 const AuthVerifySession = ({ children }: AuthVerifySessionProps) => {
   const [isValidSession, setIsValidSession] = useState(false);
   const location = useLocation();
@@ -27,7 +26,7 @@ const AuthVerifySession = ({ children }: AuthVerifySessionProps) => {
   }
 
   const { data: userInfoData, isLoading } = useApi<UserInfo>(
-    "/auth/validate-session",
+    "/auth/validate-session"
   );
 
   useEffect(() => {

@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
-import { USER_POLICY } from "../../routes/auth/googles/constants/user-policy.constant";
-import { USER_ROLE } from "../../routes/auth/googles/constants/user-role.constant";
+import { USER_POLICY } from "../../routes/auth/auth-googles/constants/user-policy.constant";
+import { USER_ROLE } from "../../routes/auth/auth-googles/constants/user-role.constant";
 import { userPolicy } from "./helpers/user-policies.helper";
 
 const USER_SCHEMA = new mongoose.Schema({
@@ -10,6 +10,7 @@ const USER_SCHEMA = new mongoose.Schema({
   password: { type: String, required: false },
   name: { type: String, required: true },
   picture: { type: String, required: false },
+  status: { type: String, required: true },
   resources: {
     role: {
       type: String,

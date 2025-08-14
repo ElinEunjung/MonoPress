@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
 import { newsSchemaModel } from "../models/news-schema.mongoose";
-import { JwtTokenHelper } from "../routes/auth/googles/helpers/jwt-token.helper";
+import { JwtTokenHelper } from "../routes/auth/auth-googles/helpers/jwt-token.helper";
 import { UserModel } from "../routes/auth/models/types/user-model.type";
 import { userService } from "../services/user.service";
 import { Types, Document } from "mongoose";
@@ -89,7 +89,7 @@ export const addComment = async (req: Request, res: Response) => {
     }
 
     const article = await newsSchemaModel.findById(
-      new Types.ObjectId(articleId),
+      new Types.ObjectId(articleId)
     );
     if (!article) {
       return res.status(404).json({ message: "Article not found" });
@@ -118,10 +118,6 @@ export const addComment = async (req: Request, res: Response) => {
 };
 
 export const addReply = async (req: Request, res: Response) => {
-  console.log("=== ADD REPLY START ===");
-  console.log("Request params:", req.params);
-  console.log("Request body:", req.body);
-
   try {
     const { articleId, commentId } = req.params;
     const { content } = req.body;
@@ -150,7 +146,7 @@ export const addReply = async (req: Request, res: Response) => {
 
     // Find article
     const article = await newsSchemaModel.findById(
-      new Types.ObjectId(articleId),
+      new Types.ObjectId(articleId)
     );
     if (!article) {
       console.log("Article not found");
@@ -271,7 +267,7 @@ export const toggleReaction = async (req: Request, res: Response) => {
 
     console.log("Looking for article:", articleId);
     const article = await newsSchemaModel.findById(
-      new Types.ObjectId(articleId),
+      new Types.ObjectId(articleId)
     );
     if (!article) {
       return res.status(404).json({ message: "Article not found" });
@@ -300,7 +296,7 @@ export const toggleReaction = async (req: Request, res: Response) => {
     // If not found at top level, search in nested replies
     if (!targetComment) {
       console.log(
-        "Not found as top-level comment, searching in nested replies...",
+        "Not found as top-level comment, searching in nested replies..."
       );
       targetComment = findCommentOrReply(article.comments, commentId);
     }
@@ -332,7 +328,7 @@ export const toggleReaction = async (req: Request, res: Response) => {
 
     // Remove from opposite reaction if exists
     const oppositeIndex = oppositeArray.findIndex(
-      (r: ReactionDocument) => r.userId === googleId,
+      (r: ReactionDocument) => r.userId === googleId
     );
     if (oppositeIndex !== -1) {
       oppositeArray.splice(oppositeIndex, 1);
@@ -341,7 +337,7 @@ export const toggleReaction = async (req: Request, res: Response) => {
 
     // Toggle current reaction
     const existingIndex = reactionArray.findIndex(
-      (r: ReactionDocument) => r.userId === googleId,
+      (r: ReactionDocument) => r.userId === googleId
     );
     if (existingIndex !== -1) {
       reactionArray.splice(existingIndex, 1);
@@ -371,9 +367,6 @@ export const toggleReaction = async (req: Request, res: Response) => {
 
 export const deleteComment = async (req: Request, res: Response) => {
   try {
-    console.log("=== DELETE COMMENT START ===");
-    console.log("Request params:", req.params);
-
     const token = req.cookies.access_token;
     const { accessToken } = JwtTokenHelper.verifyAndDecrypt<UserModel>(token);
     const user = await userService.findUserByAccessToken(accessToken);
@@ -390,7 +383,7 @@ export const deleteComment = async (req: Request, res: Response) => {
 
     console.log("Looking for article:", articleId);
     const article = await newsSchemaModel.findById(
-      new Types.ObjectId(articleId),
+      new Types.ObjectId(articleId)
     );
 
     if (!article) {
@@ -399,14 +392,14 @@ export const deleteComment = async (req: Request, res: Response) => {
 
     console.log(
       "Article found, searching for comment/reply to delete:",
-      commentId,
+      commentId
     );
 
     let commentDeleted = false;
 
     // First try to delete as a top-level comment
     const topLevelCommentIndex = article.comments.findIndex(
-      (comment: any) => comment._id.toString() === commentId,
+      (comment: any) => comment._id.toString() === commentId
     );
 
     if (topLevelCommentIndex !== -1) {
@@ -415,7 +408,7 @@ export const deleteComment = async (req: Request, res: Response) => {
       commentDeleted = true;
     } else {
       console.log(
-        "Not found as top-level comment, searching in nested replies...",
+        "Not found as top-level comment, searching in nested replies..."
       );
 
       // Function to recursively search and delete from nested replies
@@ -498,7 +491,7 @@ export const editComment = async (req: Request, res: Response) => {
 
     console.log("Looking for article:", articleId);
     const article = await newsSchemaModel.findById(
-      new Types.ObjectId(articleId),
+      new Types.ObjectId(articleId)
     );
 
     if (!article) {
@@ -507,7 +500,7 @@ export const editComment = async (req: Request, res: Response) => {
 
     console.log(
       "Article found, searching for comment/reply to edit:",
-      commentId,
+      commentId
     );
 
     // Function to find and edit comment or reply recursively

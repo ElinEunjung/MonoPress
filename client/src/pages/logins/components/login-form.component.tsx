@@ -19,13 +19,13 @@ const LoginForm = () => {
   const [login, setLogin] = useState(INITIAL_LOGIN_VALUES);
 
   const navigate = useNavigate();
-  const api = useApi("/login/mongo", {
+  const api = useApi("/auth/login/fake-user", {
     method: "post",
   });
 
   useEffect(() => {
     if (api.isSuccess) {
-      localStorage.setItem("mock-user", JSON.stringify(api.data));
+      api.mutate();
       navigate("/dashboard");
     }
   }, [api.isSuccess]);

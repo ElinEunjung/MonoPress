@@ -23,7 +23,6 @@ const MainLayout = () => {
 
   return (
     <WrapperLayout is="main">
-      <h1>askljdakjdklajdklajklsdjklajkldjkalsjdklajskldjaksljkl🥲🥲🥲</h1>
       <UserInfoProvider>
         <AuthVerifySession>
           {({ isValidSession }) => (

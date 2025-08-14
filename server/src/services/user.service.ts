@@ -1,5 +1,5 @@
 import { userSchemaModel } from "../models/users/user.mongoose";
-import { createJwtUserPayloadFactory } from "../routes/auth/googles/helpers/create-jwt-user-payload-factory";
+import { createJwtUserPayloadFactory } from "../routes/auth/auth-googles/helpers/create-jwt-user-payload-factory";
 
 type InsertUserPayload = ReturnType<typeof createJwtUserPayloadFactory>;
 export const userService = {
@@ -18,11 +18,21 @@ export const userService = {
         $set: {
           accessToken,
         },
-      },
+      }
     );
   },
 
   async insertUser(payload: InsertUserPayload) {
     return await userSchemaModel.insertOne(payload);
+  },
+  async updateUser(googleId: string, payload: InsertUserPayload) {
+    return await userSchemaModel.updateOne(
+      { googleId }, // Filter criteria
+      {
+        $set: {
+          ...payload,
+        },
+      }
+    );
   },
 };

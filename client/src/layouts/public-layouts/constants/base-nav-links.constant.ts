@@ -9,8 +9,8 @@ export const baseNavLinks = [
   {
     id: 0,
     to: "/",
-    title: "home",
-    textContent: "Home",
+    title: "hjem",
+    textContent: "Hjem",
   },
   {
     id: 1,

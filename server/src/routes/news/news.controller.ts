@@ -1,6 +1,6 @@
 import type { Response, Request } from "express";
 import path from "path";
-import { JwtTokenHelper } from "../auth/googles/helpers/jwt-token.helper";
+import { JwtTokenHelper } from "../auth/auth-googles/helpers/jwt-token.helper";
 import type { UserModel } from "../auth/models/types/user-model.type";
 import { newsService } from "./services/news.service";
 import { userSchemaModel } from "../../models/users/user.mongoose";
@@ -8,7 +8,7 @@ import { userService } from "../../services/user.service";
 
 export async function handleGetNewsByUser(
   request: Request,
-  response: Response,
+  response: Response
 ) {
   try {
     const token = request.cookies.access_token;
@@ -114,7 +114,7 @@ export async function handleCreateNews(request: Request, response: Response) {
 
 export async function handleDeleteNewsById(
   request: Request,
-  response: Response,
+  response: Response
 ) {
   try {
     const token = request.cookies.access_token;
@@ -144,7 +144,7 @@ export async function handleDeleteNewsById(
         const filePath = path.join(
           __dirname,
           "../../../public/uploads",
-          fileName,
+          fileName
         );
         try {
           await fileUtils.deleteFile(filePath);

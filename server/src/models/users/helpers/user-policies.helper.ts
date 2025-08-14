@@ -1,5 +1,5 @@
-import { USER_POLICY } from "../../../routes/auth/googles/constants/user-policy.constant";
-import { USER_ROLE } from "../../../routes/auth/googles/constants/user-role.constant";
+import { USER_POLICY } from "../../../routes/auth/auth-googles/constants/user-policy.constant";
+import { USER_ROLE } from "../../../routes/auth/auth-googles/constants/user-role.constant";
 
 type RoleValue = (typeof USER_ROLE)[keyof typeof USER_ROLE];
 

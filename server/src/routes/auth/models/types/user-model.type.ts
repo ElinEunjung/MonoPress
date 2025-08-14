@@ -11,6 +11,7 @@ export interface UserModel {
   name: string;
   email: string;
   picture: string;
+  status: "fake-account";
   resources: {
     role: UserRole[keyof UserRole];
     policy: {

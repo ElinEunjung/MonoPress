@@ -1,20 +1,16 @@
-import type { ButtonHTMLAttributes } from "react";
-
 import { api } from "@/api/api";
-import type { UserInfo } from "@/types/user-info.type";
+import { useContext } from "react";
+import { userInfoContext } from "@/contexts/user-info-providers/user-info-context";
+import type { ButtonHTMLAttributes } from "react";
 
 type LogoutProps = Omit<ButtonHTMLAttributes<HTMLButtonElement>, "onClick">;
 
 const Logout = ({ ...restButtonProps }: LogoutProps) => {
-  const localStorageMockUser = localStorage.getItem("mock-user");
-
-  const mockUser = localStorageMockUser
-    ? (JSON.parse(localStorageMockUser) as UserInfo)
-    : null;
+  const userInfoCtx = useContext(userInfoContext);
 
   async function handleLogout() {
-    if (mockUser?.email === "editor@monopress.com") {
-      localStorage.removeItem("mock-user");
+    if (userInfoCtx.userInfo.email === "editor@monopress.com") {
+      await api.get("/auth/logout/fake-user");
       location.href = "/";
     } else {
       await api.get("/auth/logout");
@@ -24,7 +20,7 @@ const Logout = ({ ...restButtonProps }: LogoutProps) => {
 
   return (
     <button type="button" onClick={handleLogout} {...restButtonProps}>
-      Logout
+      Logg ut
     </button>
   );
 };

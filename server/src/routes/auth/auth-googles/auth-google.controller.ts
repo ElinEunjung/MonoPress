@@ -12,7 +12,7 @@ import { googleAuthService } from "./services/google-auth.service";
 
 export async function handleOAuthGoogleLogin(
   _request: Request,
-  response: Response,
+  response: Response
 ) {
   const result = await googleAuthService.fetchDiscoveryConfiguration();
 
@@ -28,7 +28,7 @@ export async function handleOAuthGoogleLogin(
 
 export async function handleOAuthGoogleLogout(
   request: Request,
-  response: Response,
+  response: Response
 ) {
   const token = request.cookies.access_token;
 
@@ -42,10 +42,13 @@ export async function handleOAuthGoogleLogout(
   const { accessToken } =
     JwtTokenHelper.verifyAndDecrypt<DecodedUserModelToken>(token);
 
+  const foundUser = await userService.findUserByAccessToken(accessToken);
+
   const result =
     await googleAuthService.revokeGoogleSignByAccessToken(accessToken);
 
   if (result.ok) {
+    userService.updateUserAccessToken(foundUser!.googleId, "");
     response.clearCookie("access_token");
     response.status(result.status).end();
   }
@@ -58,7 +61,7 @@ export async function handleOAuthGoogleLogout(
 
 export async function handleGetGoogleLoginCallback(
   request: Request<{}, {}, {}, { code: string }>,
-  response: Response,
+  response: Response
 ) {
   const { code } = request.query;
 
