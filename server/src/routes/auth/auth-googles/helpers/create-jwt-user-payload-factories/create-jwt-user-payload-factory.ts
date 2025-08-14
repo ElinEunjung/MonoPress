@@ -1,6 +1,6 @@
-import { USER_POLICY } from "../constants/user-policy.constant";
-import { USER_ROLE } from "../constants/user-role.constant";
-import type { UserRole } from "../constants/user-role.constant";
+import { USER_POLICY } from "../../constants/user-policy.constant";
+import { USER_ROLE } from "../../constants/user-role.constant";
+import type { UserRole } from "../../constants/user-role.constant";
 
 interface UserPayload {
   accessToken: string;

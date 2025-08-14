@@ -1,7 +1,7 @@
 import type { Request, Response } from "express";
 import type { JwtPayload } from "jsonwebtoken";
 
-import { JwtTokenHelper } from "../auth-googles/helpers/jwt-token.helper";
+import { JwtTokenHelper } from "../auth-googles/helpers/jwt-token.helpers/jwt-token.helper";
 import type { UserModel } from "../models/types/user-model.type";
 
 export async function handleJwtCookieSession(req: Request, res: Response) {

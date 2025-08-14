@@ -1,6 +1,6 @@
 import type { Response, Request } from "express";
 import path from "path";
-import { JwtTokenHelper } from "../auth/auth-googles/helpers/jwt-token.helper";
+import { JwtTokenHelper } from "../auth/auth-googles/helpers/jwt-token.helpers/jwt-token.helper";
 import type { UserModel } from "../auth/models/types/user-model.type";
 import { newsService } from "./services/news.service";
 import { userSchemaModel } from "../../models/users/user.mongoose";

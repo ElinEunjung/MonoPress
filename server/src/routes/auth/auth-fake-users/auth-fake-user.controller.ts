@@ -1,8 +1,8 @@
 import { Request, Response } from "express";
 import { userSchemaModel } from "../../../models/users/user.mongoose";
-import { createJwtUserPayloadFactory } from "../auth-googles/helpers/create-jwt-user-payload-factory";
+import { createJwtUserPayloadFactory } from "../auth-googles/helpers/create-jwt-user-payload-factories/create-jwt-user-payload-factory";
 import { USER_ROLE } from "../auth-googles/constants/user-role.constant";
-import { JwtTokenHelper } from "../auth-googles/helpers/jwt-token.helper";
+import { JwtTokenHelper } from "../auth-googles/helpers/jwt-token.helpers/jwt-token.helper";
 import { IS_PRODUCTION_ENVIRONMENT } from "../../../configs/is-production-environment";
 import { COOKIE_MAX_AGE } from "../auth-googles/constants/cookie-max-age";
 import { userService } from "../../../services/user-services/user.service";

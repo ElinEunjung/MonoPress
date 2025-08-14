@@ -4,10 +4,10 @@ import { IS_PRODUCTION_ENVIRONMENT } from "../../../configs/is-production-enviro
 import { UserModel } from "../models/types/user-model.type";
 import { COOKIE_MAX_AGE } from "./constants/cookie-max-age";
 import { USER_ROLE } from "./constants/user-role.constant";
-import { JwtTokenHelper } from "./helpers/jwt-token.helper";
+import { JwtTokenHelper } from "./helpers/jwt-token.helpers/jwt-token.helper";
 
 import { userService } from "../../../services/user-services/user.service";
-import { createJwtUserPayloadFactory } from "./helpers/create-jwt-user-payload-factory";
+import { createJwtUserPayloadFactory } from "./helpers/create-jwt-user-payload-factories/create-jwt-user-payload-factory";
 import { googleAuthService } from "./services/google-auth.service";
 
 export async function handleOAuthGoogleLogin(

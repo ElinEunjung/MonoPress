@@ -1,6 +1,6 @@
 import jwt from "jsonwebtoken";
 import type { SignOptions } from "jsonwebtoken";
-import { JWT_SECRET } from "../../../../constants/auth/global-jwt-token";
+import { JWT_SECRET } from "../../../../../constants/auth/global-jwt-token";
 import { randomBytes } from "crypto";
 
 type JwtTokenHelperPayload = Parameters<(typeof jwt)["sign"]>[0];

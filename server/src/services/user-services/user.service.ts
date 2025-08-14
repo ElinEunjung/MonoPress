@@ -1,5 +1,5 @@
 import { userSchemaModel } from "../../models/users/user.mongoose";
-import { createJwtUserPayloadFactory } from "../../routes/auth/auth-googles/helpers/create-jwt-user-payload-factory";
+import { createJwtUserPayloadFactory } from "../../routes/auth/auth-googles/helpers/create-jwt-user-payload-factories/create-jwt-user-payload-factory";
 
 type InsertUserPayload = ReturnType<typeof createJwtUserPayloadFactory>;
 export const userService = {

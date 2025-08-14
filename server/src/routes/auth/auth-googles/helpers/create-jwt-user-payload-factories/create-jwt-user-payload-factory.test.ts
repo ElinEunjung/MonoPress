@@ -1,7 +1,7 @@
 import { describe, it, expect } from "vitest";
 import { createJwtUserPayloadFactory } from "./create-jwt-user-payload-factory";
-import { USER_ROLE } from "../constants/user-role.constant";
-import { USER_POLICY } from "../constants/user-policy.constant";
+import { USER_ROLE } from "../../constants/user-role.constant";
+import { USER_POLICY } from "../../constants/user-policy.constant";
 
 describe("createJwtUserPayloadFactory", () => {
   describe("with default payload", () => {
