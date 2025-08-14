@@ -16,7 +16,7 @@
 7. [Kilder](#Kilder)
    
 --- 
-## Redaktør-innlogginsdetaljer
+## ‼️Redaktør-innlogginsdetaljer
 
 - **Email**: editor@monopress.com
 - **Password**: admin
