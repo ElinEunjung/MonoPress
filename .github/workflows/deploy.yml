@@ -1,0 +1,38 @@
+name: Deploy to Heroku Server
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: "npm"
+
+      - name: Install dependencies
+        run: |
+          npm install
+          npm run husky
+
+      - name: Install Heroku CLI
+        run: |
+          curl https://cli-assets.heroku.com/install.sh | sh
+
+      - name: Deploy to Heroku
+        uses: akhileshns/heroku-deploy@v3.12.12
+        with:
+          branch: "main"
+          heroku_api_key: ${{secrets.HEROKU_API_KEY}}
+          heroku_app_name: "mono-press"
+          heroku_email: "eunjungp615@gmail.com"
+          justlogin: true
