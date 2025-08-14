@@ -17,7 +17,7 @@ const ViewPublicArticleById = () => {
 
   const currentNewsItem = publicNews?.find((news) => news.id === params.id);
 
-  const { mutate: toggleReaction } = useApi<
+  const { mutate: handleToggleCommentReaction } = useApi<
     { reactions: { likes: number; dislikes: number } },
     { reactionType: "like" | "dislike" }
   >(`/articles/${params.id}/react`, {
@@ -50,7 +50,7 @@ const ViewPublicArticleById = () => {
 
   const handleReaction = async (reactionType: "like" | "dislike") => {
     try {
-      const response = await toggleReaction({ reactionType });
+      const response = await handleToggleCommentReaction({ reactionType });
       if (response?.reactions) {
         setReactions(response.reactions);
       }

@@ -1,8 +1,8 @@
 import { Request, Response } from "express";
-import { newsSchemaModel } from "../models/news-schema.mongoose";
-import { JwtTokenHelper } from "./auth/auth-googles/helpers/jwt-token.helper";
-import { UserModel } from "./auth/models/types/user-model.type";
-import { userService } from "../services/user.service";
+import { newsSchemaModel } from "../../../models/news-schema.mongoose";
+import { JwtTokenHelper } from "../../auth/auth-googles/helpers/jwt-token.helper";
+import { UserModel } from "../../auth/models/types/user-model.type";
+import { userService } from "../../../services/user.service";
 import { Types, Document } from "mongoose";
 
 interface ReactionDocument extends Document {

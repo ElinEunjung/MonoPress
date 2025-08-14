@@ -46,19 +46,19 @@ export const Comment = ({
     method: "post",
   });
 
-  const { mutate: toggleReaction } = useApi<
+  const { mutate: handleToggleCommentReaction } = useApi<
     CommentType,
     { reactionType: "like" | "dislike" }
   >(`/articles/${articleId}/comments/${comment._id}/react`, {
     method: "post",
   });
 
-  const { mutate: deleteComment } = useApi<void>(
+  const { mutate: handleDeleteComment } = useApi<void>(
     `/articles/${articleId}/comments/${comment._id}`,
-    { method: "delete" },
+    { method: "delete" }
   );
 
-  const { isLoading: editLoading, mutate: editComment } = useApi<
+  const { isLoading: editLoading, mutate: handleEditComment } = useApi<
     CommentType,
     { content: string }
   >(`/articles/${articleId}/comments/${comment._id}`, {
@@ -78,7 +78,7 @@ export const Comment = ({
     if (!editContent.trim()) return;
 
     try {
-      await editComment({ content: editContent });
+      await handleEditComment({ content: editContent });
       setIsEditing(false);
       onCommentUpdate();
     } catch (error) {
@@ -92,22 +92,22 @@ export const Comment = ({
   };
 
   const handleReaction = async (reactionType: "like" | "dislike") => {
-    await toggleReaction({ reactionType });
+    await handleToggleCommentReaction({ reactionType });
     onCommentUpdate();
   };
 
   const handleDelete = async () => {
     const confirmed = window.confirm(
-      "Are you sure you want to delete this comment?",
+      "Are you sure you want to delete this comment?"
     );
     if (confirmed) {
       try {
         console.log("Attempting to delete comment:", comment._id);
         console.log(
           "Full URL:",
-          `/articles/${articleId}/comments/${comment._id}`,
+          `/articles/${articleId}/comments/${comment._id}`
         );
-        const result = await deleteComment();
+        const result = await handleDeleteComment();
         console.log("Delete response:", result);
         onCommentUpdate();
       } catch (error) {

@@ -1,6 +1,6 @@
-import { newsSchemaModel } from "../../../models/news-schema.mongoose";
+import { newsSchemaModel } from "../../../../models/news-schema.mongoose";
 
-export const publicNewsService = {
+export const articleViewsService = {
   async getPublicNews() {
     const news = await newsSchemaModel
       .find()
