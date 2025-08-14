@@ -9,7 +9,7 @@
     "dev:client": "cd client && npm run dev",
     "dev:server": "cd server && npm run dev",
     "prepare": "husky",
-    "husky": "concurrently \"npm run prettier:write\" \"npm run lint:client\" \"npm run test:server\"",
+    "husky": "concurrently \"npm run lint:client\" \"npm run test:server\"",
     "lint:client": "cd client && npm run lint",
     "prettier:write": "prettier --write \"{client,server}/**/*.{js,jsx,ts,tsx,json,css,scss,md}\"",
     "test:client": "cd client && npm test",
