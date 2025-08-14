@@ -15,7 +15,7 @@ export function useApi<TData = unknown, TBody = unknown>(
     method: "get",
   },
 ) {
-  const [data, setData] = useState<TData>();
+  const [data, setData] = useState<TData | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const [isError, setIsError] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
@@ -38,6 +38,7 @@ export function useApi<TData = unknown, TBody = unknown>(
         return response.data;
       } catch (error) {
         setIsError(true);
+        setData(null);
         if (error instanceof AxiosError) {
           // Extract the error message from the backend response if available
           const backendError = error.response?.data;
