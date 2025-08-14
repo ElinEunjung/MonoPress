@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
 import { newsSchemaModel } from "../models/news-schema.mongoose";
-import { JwtTokenHelper } from "../routes/auth/auth-googles/helpers/jwt-token.helper";
-import { UserModel } from "../routes/auth/models/types/user-model.type";
+import { JwtTokenHelper } from "./auth/auth-googles/helpers/jwt-token.helper";
+import { UserModel } from "./auth/models/types/user-model.type";
 import { userService } from "../services/user.service";
 import { Types, Document } from "mongoose";
 
@@ -9,7 +9,7 @@ interface ReactionDocument extends Document {
   userId: string;
 }
 
-export const toggleArticleReaction = async (req: Request, res: Response) => {
+export async function handleToggleArticleReaction(req: Request, res: Response) {
   try {
     const token = req.cookies.access_token;
     const { accessToken } = JwtTokenHelper.verifyAndDecrypt<UserModel>(token);
@@ -96,9 +96,6 @@ export const toggleArticleReaction = async (req: Request, res: Response) => {
 
     await article.save();
 
-    console.log("Article saved successfully");
-    console.log("=== TOGGLE ARTICLE REACTION SUCCESS ===");
-
     res.status(200).json({
       message: "Article reaction toggled successfully",
       reactions: {
@@ -107,13 +104,12 @@ export const toggleArticleReaction = async (req: Request, res: Response) => {
       },
     });
   } catch (error) {
-    console.error("=== TOGGLE ARTICLE REACTION ERROR ===");
     console.error("Error:", error);
     res.status(500).json({ message: "Error toggling article reaction", error });
   }
-};
+}
 
-export const getArticleReactions = async (req: Request, res: Response) => {
+export async function handleGetArticleReactions(req: Request, res: Response) {
   try {
     const { articleId } = req.params;
 
@@ -148,4 +144,4 @@ export const getArticleReactions = async (req: Request, res: Response) => {
     console.error("Error getting article reactions:", error);
     res.status(500).json({ message: "Error getting article reactions", error });
   }
-};
+}

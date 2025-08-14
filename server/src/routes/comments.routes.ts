@@ -6,7 +6,7 @@ import {
   editComment,
   toggleReaction,
   getComments,
-} from "../controllers/comments.controller";
+} from "./comments.controller";
 
 const commentsRouter = express.Router();
 
@@ -25,17 +25,17 @@ commentsRouter.post("/articles/:articleId/comments", addComment);
 // Add a reply to a comment or another reply
 commentsRouter.post(
   "/articles/:articleId/comments/:commentId/replies",
-  addReply,
+  addReply
 );
 commentsRouter.post(
   "/articles/:articleId/comments/:commentId/replies/:replyId/replies",
-  addReply,
+  addReply
 );
 
 // Toggle reaction (like/dislike) on a comment
 commentsRouter.post(
   "/articles/:articleId/comments/:commentId/react",
-  toggleReaction,
+  toggleReaction
 );
 
 // Edit a comment or reply
@@ -44,7 +44,7 @@ commentsRouter.put("/articles/:articleId/comments/:commentId", editComment);
 // Delete a comment
 commentsRouter.delete(
   "/articles/:articleId/comments/:commentId",
-  deleteComment,
+  deleteComment
 );
 
 export { commentsRouter };

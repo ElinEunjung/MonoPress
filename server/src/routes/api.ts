@@ -1,6 +1,6 @@
 import express from "express";
 
-import { newsRouter } from "./news/news.router";
+import { editorArticleRouter } from "./editor-articles/editor-article.router";
 import { authRouter } from "./auth/auth.router";
 import { validateCookieSession } from "../middleware/validate-cookie-session.middleware";
 import { publicNewsRouter } from "./public-news/public-news.router";
@@ -16,6 +16,6 @@ api.use(validateCookieSession); // Middleware for validating cookie session
 
 api.use(commentsRouter);
 api.use(articlesRouter);
-api.use(newsRouter);
+api.use(editorArticleRouter);
 
 export { api };

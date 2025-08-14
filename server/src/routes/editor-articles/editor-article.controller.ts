@@ -6,7 +6,7 @@ import { newsService } from "./services/news.service";
 import { userSchemaModel } from "../../models/users/user.mongoose";
 import { userService } from "../../services/user.service";
 
-export async function handleGetNewsByUser(
+export async function handleGetArticleByUser(
   request: Request,
   response: Response
 ) {
@@ -19,7 +19,7 @@ export async function handleGetNewsByUser(
 
     return response.status(200).json(userNews);
   } catch (error) {
-    console.error("Error in handleGetNewsByUser:", error);
+    console.error("Error in handleGetArticleByUser:", error);
     return response.status(500).json({
       message: "Failed to retrieve news",
       error: (error as Error).message,
@@ -27,7 +27,10 @@ export async function handleGetNewsByUser(
   }
 }
 
-export async function handleEditNewsById(request: Request, response: Response) {
+export async function handleEditArticleById(
+  request: Request,
+  response: Response
+) {
   try {
     const token = request.cookies.access_token;
     const newsId = request.params.id as string;
@@ -62,7 +65,7 @@ export async function handleEditNewsById(request: Request, response: Response) {
     await newsService.updateNews(payload);
     response.status(201).end();
   } catch (error) {
-    console.error("Error in handleEditNewsById:", error);
+    console.error("Error in handleEditArticleById:", error);
     return response.status(500).json({
       message: "Failed to update news",
       error: (error as Error).message,
@@ -70,7 +73,10 @@ export async function handleEditNewsById(request: Request, response: Response) {
   }
 }
 
-export async function handleCreateNews(request: Request, response: Response) {
+export async function handleCreateArticle(
+  request: Request,
+  response: Response
+) {
   try {
     if (!request.file) {
       return response.status(400).json({ message: "No file uploaded." });
@@ -112,7 +118,7 @@ export async function handleCreateNews(request: Request, response: Response) {
   }
 }
 
-export async function handleDeleteNewsById(
+export async function handleDeleteArticleById(
   request: Request,
   response: Response
 ) {
@@ -156,7 +162,7 @@ export async function handleDeleteNewsById(
 
     return response.status(204).end();
   } catch (error) {
-    console.error("Error in handleDeleteNewsById:", error);
+    console.error("Error in handleDeleteArticleById:", error);
     return response.status(500).json({
       message: "Failed to delete news",
       error: (error as Error).message,
