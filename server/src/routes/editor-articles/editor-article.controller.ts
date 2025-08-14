@@ -4,7 +4,7 @@ import { JwtTokenHelper } from "../auth/auth-googles/helpers/jwt-token.helper";
 import type { UserModel } from "../auth/models/types/user-model.type";
 import { newsService } from "./services/news.service";
 import { userSchemaModel } from "../../models/users/user.mongoose";
-import { userService } from "../../services/user.service";
+import { userService } from "../../services/user-services/user.service";
 
 export async function handleGetArticleByUser(
   request: Request,

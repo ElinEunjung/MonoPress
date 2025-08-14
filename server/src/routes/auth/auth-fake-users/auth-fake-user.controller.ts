@@ -5,7 +5,7 @@ import { USER_ROLE } from "../auth-googles/constants/user-role.constant";
 import { JwtTokenHelper } from "../auth-googles/helpers/jwt-token.helper";
 import { IS_PRODUCTION_ENVIRONMENT } from "../../../configs/is-production-environment";
 import { COOKIE_MAX_AGE } from "../auth-googles/constants/cookie-max-age";
-import { userService } from "../../../services/user.service";
+import { userService } from "../../../services/user-services/user.service";
 import { UserModel } from "../models/types/user-model.type";
 
 export async function handleLoginFakeUser(
