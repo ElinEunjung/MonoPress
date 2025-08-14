@@ -1,10 +1,10 @@
 import { useContext } from "react";
 import { Link } from "react-router";
 import { userInfoContext } from "@/contexts/user-info-providers/user-info-context";
-import styles from "./user-info.module.css";
+import styles from "./user-image-link.module.css";
 import type { UserInfo } from "@/types/user-info.type";
 
-const UserInfo = () => {
+const UserImageLink = () => {
   const userInfoCtx = useContext(userInfoContext);
 
   const localStorageMockUser = localStorage.getItem("mock-user");
@@ -49,4 +49,4 @@ const UserInfo = () => {
   );
 };
 
-export default UserInfo;
+export default UserImageLink;
