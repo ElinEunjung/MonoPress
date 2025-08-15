@@ -35,7 +35,7 @@
 - [Test-Rapport](https://github.com/ElinEunjung/MonoPress/actions)
 
   > ⚠️ Problemer! <br>
-  > Jeg opplevde problemer med å koble classroom-repoet til Heroku-serveren via Github Action[A](docs/github-action.png), derfor har laget et nytt repo [B](docs/heroku.png) for tilkobling, og aktiverte automatisk deploy i [C,D](docs/heroku.png). I Heroku-serverens build-logg [E](docs/heroku-2.png), kan vi se både build og deploy er gjennomført [F](docs/heroku-3.png), og endringene blir publisert til serveren.
+  > Jeg opplevde problemer med å koble classroom-repoet til Heroku-serveren via Github Action [A](docs/images/github-action.png), derfor har laget et nytt repo [B](docs/images/heroku.png) for tilkobling, og aktiverte automatisk deploy i [C, D](docs/heroku.png), . I Heroku-serverens build-logg [E](docs/images/heroku-2.png), kan vi se både build og deploy er gjennomført [F](docs/images/heroku-3.png), og endringene blir publisert til serveren.
 
 ---
 
